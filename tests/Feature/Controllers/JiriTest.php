@@ -138,7 +138,6 @@ it('verifies if jiri data is correctly inserted in the database when you create 
         $final_data['contacts'][$key] = array('role' => $available_roles[rand(1, 2)]);
     }
 
-    dd($final_data);
     $response = $this->post(route('jiris.store'), $final_data);
 
     expect(Jiri::all()->count())->toBe(1)
