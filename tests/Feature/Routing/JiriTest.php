@@ -5,70 +5,80 @@ use App\Models\User;
 use Carbon\Carbon;
 use function Pest\Laravel\actingAs;
 
-beforeEach(function (){
-    $user = User::factory()->create();
+// GUEST
+it('verifies if a guest can’t access to jiris.index route', function () {
+    $response = $this->get(route('jiris.index'));
 
-    actingAs($user);
+    $response->assertStatus(302);
+    $response->assertRedirect(route('login'));
 });
 
-it('redirects to the jiri index route after the successful creation of a jiri',
-    function () {
+// AUTH
+describe('Authenticated User ONLY', function () {
+    beforeEach(function () {
+        $user = User::factory()->create();
+        actingAs($user);
+    });
+
+    it('redirects to the jiri index route after the successful creation of a jiri',
+        function () {
+            // Arrange
+            $jiri = Jiri::factory()->raw();
+
+            // Act
+            $response = $this->post(route('jiris.store'), $jiri);
+
+            // Assert
+            $response->assertStatus(302);
+            $response->assertRedirect(route('jiris.index'));
+        }
+    );
+
+    it('displays a complete list of jiries on the jiri index page', function () {
         // Arrange
-        $jiri = Jiri::factory()->raw();
+        $jiris = Jiri::factory(4)->create();
 
         // Act
-        $response = $this->post(route('jiris.store'), $jiri);
+        $response = $this->get('/jiris');
 
         // Assert
-        $response->assertStatus(302);
-        $response->assertRedirect(route('jiris.index'));
-    }
-);
+        $response->assertStatus(200);
+        $response->assertViewIs('jiris.index');
+        $response->assertSee('<h1>Jiris disponible</h1>', false);
 
-it('displays a complete list of jiries on the jiri index page', function () {
-    // Arrange
-    $jiris = Jiri::factory(4)->create();
+        foreach ($jiris as $jiri) {
+            $response->assertSee($jiri->name, false);
+        }
+    });
 
-    // Act
-    $response = $this->get('/jiris');
+    it('verifies if there are no jiris and displays an error message', function () {
+        $response = $this->get('/jiris');
 
-    // Assert
-    $response->assertStatus(200);
-    $response->assertViewIs('jiris.index');
-    $response->assertSee('<h1>Jiris disponible</h1>', false);
+        // Assert
+        $response->assertSee('<h1>Il n’y a pas de jiri disponible</h1>', false);
+    });
 
-    foreach ($jiris as $jiri) {
-        $response->assertSee($jiri->name, false);
-    }
-});
+    it('verifies if the informations of every jiris are correct in the details views', function () {
+        // Arrange
+        $jiri = Jiri::factory()->create();
 
-it('verifies if there are no jiris and displays an error message', function () {
-    $response = $this->get('/jiris');
+        // Act
+        $response = $this->get('/jiris/' . $jiri->id);
 
-    // Assert
-    $response->assertSee('<h1>Il n’y a pas de jiri disponible</h1>', false);
-});
+        // Assert
+        $response->assertStatus(200);
+        $response->assertViewIs('jiris.show');
+        $response->assertSee('<h1>Récapitulatif du jiri : ' . $jiri->name . '</h1>', false);
+    });
 
-it('verifies if the informations of every jiris are correct in the details views', function () {
-    // Arrange
-    $jiri = Jiri::factory()->create();
+    it('verifies if you give a false value to a specific column in the table', function () {
+        $jiri = [
+            'name' => '',
+            'date' => Carbon::now(),
+        ];
 
-    // Act
-    $response = $this->get('/jiris/'.$jiri->id);
+        $response = $this->post('/jiris', $jiri);
 
-    // Assert
-    $response->assertStatus(200);
-    $response->assertViewIs('jiris.show');
-    $response->assertSee('<h1>Récapitulatif du jiri : '.$jiri->name.'</h1>', false);
-});
-
-it('verifies if you give a false value to a specific column in the table', function () {
-    $jiri = [
-        'name' => '',
-        'date' => Carbon::now(),
-    ];
-
-    $response = $this->post('/jiris', $jiri);
-
-    $response->assertInvalid('name');
+        $response->assertInvalid('name');
+    });
 });

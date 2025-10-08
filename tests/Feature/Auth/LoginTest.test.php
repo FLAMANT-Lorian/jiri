@@ -27,11 +27,3 @@ it('verifies if you are redirected to the dashboard after a successful request',
     $response->assertStatus(302);
     $response->assertRedirect(route('jiris.index'));
 });
-
-it('verifies if a guest can’t access to jiris.index route', function () {
-
-    $response = $this->get(route('jiris.index'));
-
-    $response->assertStatus(302);
-    $response->assertRedirect(route('login'));
-});

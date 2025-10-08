@@ -19,13 +19,21 @@
             </g>
         </svg>
         <h1 class="text-3xl font-medium text-center mb-6">
-            {!! __('login-view.identify_yourself') !!}
+            {!! __('register-view.register_yourself') !!}
         </h1>
         <p class="pb-2 text-sm">Les champs renseignés avec <span class="text-blue-500">*</span> sont obligatoires</p>
-        <form class="flex flex-col" action="{!! route('login.store') !!}" method="post" novalidate>
+        <form class="flex flex-col" action="{!! route('register.store') !!}" method="post" novalidate>
             @csrf
             <fieldset class="flex flex-col">
                 <legend class="hidden">Créer un compte</legend>
+                <div class="flex flex-col pb-6 relative">
+                    <label class="pb-1" for="name">Nom d’utilisateur<small class="text-blue-500"> *</small></label>
+                    <input class="p-2 border-1 border-gray-300 rounded-lg" type="text" name="name" id="name"
+                           value="{!! old('name') !!}">
+                    @error('name')
+                    <p class="text-sm absolute text-red-500 top-18">{{ $message }}</p>
+                    @enderror
+                </div>
                 <div class="flex flex-col pb-6 relative">
                     <label class="pb-1" for="email">Adresse e-mail<small class="text-blue-500"> *</small></label>
                     <input class="p-2 border-1 border-gray-300 rounded-lg" type="email" name="email" id="email"
@@ -35,26 +43,27 @@
                     @enderror
                 </div>
                 <div class="flex flex-col pb-6 relative">
-                    <label class="pb-1" for="password">Mot de passe<small class="text-blue-600"> *</small></label>
+                    <label class="pb-1" for="password">Mot de passe<small class="text-blue-500"> *</small></label>
                     <input class="p-2 border-1 border-gray-300 rounded-lg" type="password" name="password" id="password" value="{!! old('password') !!}">
                     @error('password')
                     <p class="text-sm absolute text-red-500 top-18">{{ $message }}</p>
                     @enderror
                     <img src="{!! asset('assets/img/eye-off.svg') !!}" class="max-w-5 absolute top-10 right-4" alt="Oeil fermé">
                 </div>
-                <div class="flex flex-row justify-between pb-6">
-                    <div class="fields">
-                        <input type="checkbox" name="remember_me" id="remember_me">
-                        <label for="remember_me" class="pl-1">Se souvenir de moi</label>
-                    </div>
-                    <a href="#" class="text-blue-500 hover:text-blue-700">Mot de passe oublié ?</a>
+                <div class="flex flex-col pb-6 relative">
+                    <label class="pb-1" for="password_confirmation">Confirmer votre mot de passe<small class="text-blue-500"> *</small></label>
+                    <input class="p-2 border-1 border-gray-300 rounded-lg" type="password" name="password_confirmation" id="password_confirmation" value="{!! old('password') !!}">
+                    @error('password_confirmation')
+                    <p class="text-sm absolute text-red-500 top-18">{{ $message }}</p>
+                    @enderror
+                    <img src="{!! asset('assets/img/eye-off.svg') !!}" class="max-w-5 absolute top-10 right-4" alt="Oeil fermé">
                 </div>
             </fieldset>
             <button
-                class="py-2 text-center bg-blue-500 text-white rounded-lg hover:bg-blue-700 transition-all">{!! __('login-view.login_button') !!}</button>
+                class="py-2 text-center bg-blue-500 text-white rounded-lg hover:bg-blue-700 transition-all">{!! __('register-view.register_button') !!}</button>
         </form>
-        <p class="mt-4 text-center">Pas encore de compte ?
-            <a href="{!! route('register') !!}" class="text-blue-500 pl-1 hover:text-blue-700">Créer un compte</a>
+        <p class="mt-4 text-center">Déjà un compte ?
+            <a href="{!! route('login') !!}" class="text-blue-500 pl-1 hover:text-blue-700">Me connecter</a>
         </p>
     </section>
 </body>
