@@ -8,6 +8,14 @@ use App\Models\Implementation;
 use App\Models\Jiri;
 use App\Models\Project;
 use function Pest\Laravel\assertDatabaseHas;
+use App\Models\User;
+use function Pest\Laravel\actingAs;
+
+beforeEach(function (){
+    $user = User::factory()->create();
+
+    actingAs($user);
+});
 
 it('verifies if you give a false value to a specific column in the table', function () {
     $contact = [
@@ -61,7 +69,6 @@ it('verifies if a contact is correctly inserted in the database when you create 
 
     $final_data = array_merge($contact, ['jiris' => $jiri_to_insert]);
 
-    dd($final_data);
     $response = $this->post(route('contacts.store'), $final_data);
 
     expect(Contact::all()->count())->toBe(1)

@@ -1,6 +1,15 @@
 <?php
 
 use App\Models\Project;
+use App\Models\User;
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+
+beforeEach(function (){
+    $user = User::factory()->create();
+
+    actingAs($user);
+});
 
 it('creates a project and redirects to the project index', function () {
     // Arrange

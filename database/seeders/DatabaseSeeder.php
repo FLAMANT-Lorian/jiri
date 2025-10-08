@@ -10,6 +10,7 @@ use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Password;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,8 +26,15 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
+        // Pour tester la connection (login)
+       /* User::factory()->create([
+           'name' => 'Flamant Ambre',
+           'email' => 'ambre.flamant30@gmail.com',
+            'password' => password_hash('VictoriaLorian', PASSWORD_BCRYPT),
+        ]);*/
+
         // Pour tester lors de la création d'un jiri
-        Contact::factory()->count(4)->create();
+       /* Contact::factory()->count(4)->create();
         Project::insert([
             [
                 'name' => 'Portfolio',
@@ -58,7 +66,7 @@ class DatabaseSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
-        ]);
+        ]);*/
 
         // Pour tester lors de la création d'un contact
         /*Jiri::factory()

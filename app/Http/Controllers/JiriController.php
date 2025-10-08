@@ -11,6 +11,7 @@ use App\Models\Jiri;
 use App\Models\Project;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 
@@ -18,7 +19,7 @@ class JiriController extends Controller
 {
     public function index()
     {
-        $jiris = Jiri::all();
+        $jiris = Auth::user()->jiris;
 
         return view('jiris.index', compact('jiris'));
     }
@@ -34,7 +35,11 @@ class JiriController extends Controller
             'contacts.*.role' => Rule::Enum(ContactRoles::class),
         ]);
 
-        $jiri = Jiri::create($validated_data);
+        $jiri = Jiri::create(array_merge(
+            $validated_data,
+            [
+                'user_id' => Auth::user()->id
+            ]));
 
         if (!empty($validated_data['projects'])) {
             $jiri->projects()->attach($validated_data['projects']);

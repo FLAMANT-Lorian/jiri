@@ -1,6 +1,15 @@
 <?php
 
 use App\Models\Jiri;
+use App\Models\User;
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+
+beforeEach(function (){
+    $user = User::factory()->create();
+
+    actingAs($user);
+});
 
 it('verifies that the jiris.create route displays a form to create a jiri', function (string $locale, string $main_heading) {
     App::setLocale($locale);
@@ -15,3 +24,30 @@ it('verifies that the jiris.create route displays a form to create a jiri', func
     ['en', 'Create a jiri'],
 ]);
 
+it('verifies if the jiris in the dashboard page are associated to the current user',
+    function () {
+
+        $user = User::factory()
+            ->has(Jiri::factory()
+                ->count(3))
+            ->create();
+
+        $other_user = User::factory()
+            ->has(Jiri::factory()
+                ->count(2))
+            ->create();
+
+        actingAs($user);
+
+        $response = get(route('jiris.index'));
+
+        $response->assertStatus(200);
+
+        foreach ($user->jiris as $jiri) {
+            $response->assertSee($jiri->name);
+        }
+
+        foreach ($other_user->jiris as $jiri) {
+            $response->assertDontSee($jiri->name);
+        }
+    });

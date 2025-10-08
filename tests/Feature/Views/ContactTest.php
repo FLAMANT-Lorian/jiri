@@ -1,6 +1,14 @@
 <?php
 
 use App\Models\Contact;
+use App\Models\User;
+use function Pest\Laravel\actingAs;
+
+beforeEach(function (){
+    $user = User::factory()->create();
+
+    actingAs($user);
+});
 
 it('displays a complete list of contacts on the contact index page', function () {
     // Arrange

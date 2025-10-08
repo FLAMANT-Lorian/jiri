@@ -1,7 +1,15 @@
 <?php
 
 use App\Models\Jiri;
+use App\Models\User;
 use Carbon\Carbon;
+use function Pest\Laravel\actingAs;
+
+beforeEach(function (){
+    $user = User::factory()->create();
+
+    actingAs($user);
+});
 
 it('redirects to the jiri index route after the successful creation of a jiri',
     function () {
@@ -13,7 +21,7 @@ it('redirects to the jiri index route after the successful creation of a jiri',
 
         // Assert
         $response->assertStatus(302);
-        $response->assertRedirect('/jiris');
+        $response->assertRedirect(route('jiris.index'));
     }
 );
 
@@ -35,7 +43,6 @@ it('displays a complete list of jiries on the jiri index page', function () {
 });
 
 it('verifies if there are no jiris and displays an error message', function () {
-    // Act
     $response = $this->get('/jiris');
 
     // Assert

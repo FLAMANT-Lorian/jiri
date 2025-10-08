@@ -8,10 +8,16 @@ use App\Models\Implementation;
 use App\Models\Jiri;
 use App\Models\Project;
 use Carbon\Carbon;
-
 use function Pest\Laravel\assertDatabaseEmpty;
 use function Pest\Laravel\assertDatabaseHas;
+use App\Models\User;
+use function Pest\Laravel\actingAs;
 
+beforeEach(function (){
+    $user = User::factory()->create();
+
+    actingAs($user);
+});
 it('creates successfully a jiri from the data provided by the request', function () {
     // Arrange
     $jiri = Jiri::factory()->raw();

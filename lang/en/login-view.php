@@ -13,8 +13,11 @@ return [
     |
     */
 
-    'failed' => 'L’email et le mot de passe de correspondent pas',
-    'password' => 'Mot de passe incorrect',
+    'failed' => 'These credentials do not match our records.',
+    'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'identify_yourself' => 'Identify yourself !',
+    'login_button' => 'Identify yourself',
+
 
 ];
