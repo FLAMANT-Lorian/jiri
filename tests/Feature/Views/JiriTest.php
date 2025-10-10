@@ -53,7 +53,7 @@ it('verifies if the jiris in the dashboard page are associated to the current us
     }
 );
 
-it('verifies if a jiri.update route exist and displays a update form',
+it('verifies if a jiri.edit route exist and displays a update form',
     function () {
         $jiri = Jiri::factory()->create();
 

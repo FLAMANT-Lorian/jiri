@@ -5,4 +5,5 @@ return [
     'create_a_jiri' => 'Create a jiri',
     'evaluators' => 'evaluators',
     'evaluated' => 'evaluated',
+    'update_a_jiri' => 'Update the Jiri'
 ];
