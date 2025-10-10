@@ -4,9 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Jiri · Créez un jiri</title>
-{{--    @vite(['resources/css/app.css', 'resources/js/app.js'])--}}
+    {{--    @vite(['resources/css/app.css', 'resources/js/app.js'])--}}
 </head>
 <body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkboxes = document.querySelectorAll('.contact');
+
+            checkboxes.forEach(checkbox => {
+                const id = checkbox.value;
+                const select = document.getElementById(`role${id}`);
+
+                checkbox.checked ? select.disabled = false : select.disabled = true;
+
+                checkbox.addEventListener('change', () => {
+                    checkbox.checked ? select.disabled = false : select.disabled = true;
+                });
+            });
+        });
+    </script>
     <h1>{!! __('headings.create_a_jiri') !!}</h1>
     <form action="{!! route('jiris.store') !!}" method="post">
         @csrf
@@ -39,12 +55,14 @@
             @foreach($contacts as $contact)
                 <div class="field" style="display: flex; flex-direction: row">
                     <div class="sub_field">
-                        <input type="checkbox" name="contacts[{!! $contact->id !!}]" id="contacts"
+                        <input class="contact" type="checkbox" name="contacts[{!! $contact->id !!}]"
+                               id="contacts{!! $contact->id !!}"
                                value="{!! $contact->id !!}">
-                        <label for="contacts" style="margin-right: 10px">{!! $contact->name !!}</label>
+                        <label for="contacts{!! $contact->id !!}"
+                               style="margin-right: 10px">{!! $contact->name !!}</label>
                     </div>
                     <div class="sub_field">
-                        <select name="contacts[{!! $contact->id !!}][role]" id="role">
+                        <select name="contacts[{!! $contact->id !!}][role]" id="role{!! $contact->id !!}">
                             @foreach(\App\Enums\ContactRoles::cases() as $role)
                                 <option value="{!! $role->value !!}">{!! __('labels-buttons.'.$role->value) !!}</option>
                             @endforeach
@@ -57,8 +75,9 @@
             <legend>Projets disponibles</legend>
             @foreach($projects as $project)
                 <div class="field">
-                    <input type="checkbox" name="projects[{!! $project->id !!}]" id="projects" value="{!! $project->id !!}">
-                    <label for="projects">{!! $project->name !!}</label>
+                    <input type="checkbox" name="projects[{!! $project->id !!}]" id="projects{!! $project->id !!}"
+                           value="{!! $project->id !!}">
+                    <label for="projects{!! $project->id !!}">{!! $project->name !!}</label>
                 </div>
             @endforeach
         </fieldset>

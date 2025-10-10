@@ -6,6 +6,22 @@
     <title>Modifier le jiri</title>
 </head>
 <body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkboxes = document.querySelectorAll('.contact');
+
+            checkboxes.forEach(checkbox => {
+                const id = checkbox.value;
+                const select = document.getElementById(`role${id}`);
+
+                checkbox.checked ? select.disabled = false : select.disabled = true;
+
+                checkbox.addEventListener('change', () => {
+                    checkbox.checked ? select.disabled = false : select.disabled = true;
+                });
+            });
+        });
+    </script>
     <h1>Modifier le jiri</h1>
     <form action="{!! route('jiris.update', $jiri->id) !!}" method="post">
         @method('PATCH')
@@ -39,15 +55,15 @@
             @foreach($contacts as $contact)
                 <div class="field" style="display: flex; flex-direction: row">
                     <div class="sub_field">
-                        <input type="checkbox" name="contacts[{!! $contact->id !!}]" id="contacts"
+                        <input class="contact" type="checkbox" name="contacts[{!! $contact->id !!}]" id="contacts{!! $contact->id !!}"
                                value="{!! $contact->id !!}"
                                @if(\App\Models\Attendance::where('jiri_id', $jiri->id)->where('contact_id', $contact->id)->first())
                                    checked
                             @endif>
-                        <label for="contacts" style="margin-right: 10px">{!! $contact->name !!}</label>
+                        <label for="contacts{!! $contact->id !!}" style="margin-right: 10px">{!! $contact->name !!}</label>
                     </div>
                     <div class="sub_field">
-                        <select name="contacts[{!! $contact->id !!}][role]" id="role">
+                        <select name="contacts[{!! $contact->id !!}][role]" id="role{!! $contact->id !!}">
                             @foreach(\App\Enums\ContactRoles::cases() as $role)
                                 @php
                                     $attendance = \App\Models\Attendance::where('jiri_id', $jiri->id)->where('contact_id', $contact->id)->first()
