@@ -3,20 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ContactRoles;
-use App\Models\Attendance;
 use App\Models\Contact;
 use App\Models\Homework;
-use App\Models\Implementation;
 use App\Models\Jiri;
 use App\Models\Project;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Enum;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class JiriController extends Controller
 {
+    use AuthorizesRequests;
     public function index()
     {
         $jiris = Auth::user()->jiris;
@@ -60,7 +59,6 @@ class JiriController extends Controller
         return redirect(route('jiris.index'));
     }
 
-
     public function show(Jiri $jiri)
     {
         return view('jiris.show', compact('jiri'));
@@ -70,11 +68,25 @@ class JiriController extends Controller
     {
         $contacts = Contact::all();
         $projects = Project::all();
+
         return view('jiris.create', compact('contacts', 'projects'));
     }
 
     public function edit(Jiri $jiri)
     {
-        return view('jiris.edit', compact('jiri'));
+        // Récupérer les données du jiri
+        $contacts = Contact::all();
+        $projects = Project::all();
+
+        return view('jiris.edit', compact('jiri', 'contacts', 'projects'));
+    }
+
+    public function update(Jiri $jiri)
+    {
+        $this->authorize('update', $jiri);
+
+        dd('OK');
+
+        // $jiri->save()
     }
 }
