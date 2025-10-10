@@ -5,7 +5,7 @@ use App\Models\User;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 
-beforeEach(function (){
+beforeEach(function () {
     $user = User::factory()->create();
 
     actingAs($user);
@@ -50,4 +50,17 @@ it('verifies if the jiris in the dashboard page are associated to the current us
         foreach ($other_user->jiris as $jiri) {
             $response->assertDontSee($jiri->name);
         }
-    });
+    }
+);
+
+it('verifies if a jiri.update route exist and displays a update form',
+    function () {
+        $jiri = Jiri::factory()->create();
+
+        $response = $this->get(route('jiris.edit', $jiri->id));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('jiris.edit');
+        $response->assertSee('Modifier le jiri');
+    }
+);

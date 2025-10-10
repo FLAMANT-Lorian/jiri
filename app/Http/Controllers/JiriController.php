@@ -63,7 +63,6 @@ class JiriController extends Controller
 
     public function show(Jiri $jiri)
     {
-
         return view('jiris.show', compact('jiri'));
     }
 
@@ -72,5 +71,10 @@ class JiriController extends Controller
         $contacts = Contact::all();
         $projects = Project::all();
         return view('jiris.create', compact('contacts', 'projects'));
+    }
+
+    public function edit(Jiri $jiri)
+    {
+        return view('jiris.edit', compact('jiri'));
     }
 }

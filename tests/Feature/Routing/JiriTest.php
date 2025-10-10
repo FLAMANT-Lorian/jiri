@@ -63,7 +63,7 @@ describe('Authenticated User ONLY', function () {
         $jiri = Jiri::factory()->create();
 
         // Act
-        $response = $this->get('/jiris/' . $jiri->id);
+        $response = $this->get(route('jiris.show', $jiri->id));
 
         // Assert
         $response->assertStatus(200);

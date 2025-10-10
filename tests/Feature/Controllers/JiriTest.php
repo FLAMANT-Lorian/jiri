@@ -13,7 +13,7 @@ use function Pest\Laravel\assertDatabaseHas;
 use App\Models\User;
 use function Pest\Laravel\actingAs;
 
-beforeEach(function (){
+beforeEach(function () {
     $user = User::factory()->create();
 
     actingAs($user);
@@ -95,7 +95,7 @@ it('verifies if the informations of every jiris are correct in the details views
     $jiri = Jiri::factory()->create();
 
     // Act
-    $response = $this->get('/jiris/' . $jiri->id);
+    $response = $this->get(route('jiris.show', $jiri->id));
 
     // Assert
     $response->assertStatus(200);
