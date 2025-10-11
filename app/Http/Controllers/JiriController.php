@@ -50,7 +50,7 @@ class JiriController extends Controller
                 $jiri->contacts()->attach($id, ['role' => $contact['role']]);
 
                 if ($contact['role'] === ContactRoles::Evaluated->value) {
-                    $correct_contact = $jiri->contacts->where('id', '=', $id)->first();
+                    $correct_contact = Contact::where('id', '=', $id)->first();
                     $homeworks_id = $jiri->homeworks()->pluck('id');
                     $correct_contact->homeworks()->attach($homeworks_id);
                 }
