@@ -140,7 +140,7 @@ class JiriController extends Controller
 
         foreach ($contacts_to_remove as $contact_to_remove) {
             if ($contact = Contact::find($contact_to_remove)) {
-                $contact->homeworks()->sync([]);
+                $contact->homeworks()->detach();
             }
         }
 
@@ -152,7 +152,7 @@ class JiriController extends Controller
             if ($contact['role'] === ContactRoles::Evaluated->value) {
                 $correct_contact->homeworks()->sync($homeworks_id);
             } else {
-                $correct_contact->homeworks()->sync([]);
+                $correct_contact->homeworks()->detach();
             }
         }
 
