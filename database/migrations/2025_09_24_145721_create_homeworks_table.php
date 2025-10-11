@@ -9,8 +9,8 @@ return new class extends Migration {
     {
         Schema::create('homeworks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('jiri_id');
-            $table->foreignId('project_id');
+            $table->foreignId('jiri_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('project_id')->constrained()->cascadeOnDelete();
         });
     }
 

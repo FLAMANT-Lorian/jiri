@@ -9,8 +9,8 @@ return new class extends Migration {
     {
         Schema::create('implementations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('contact_id')->constrained();
-            $table->foreignId('homework_id')->constrained('homeworks');
+            $table->foreignId('contact_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('homework_id')->constrained('homeworks')->cascadeOnDelete();
             $table->timestamps();
         });
     }

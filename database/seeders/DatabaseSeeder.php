@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\ContactRoles;
 use App\Models\Contact;
+use App\Models\Homework;
 use App\Models\Jiri;
 use App\Models\Project;
 use App\Models\User;
@@ -30,8 +31,20 @@ class DatabaseSeeder extends Seeder
                     )
                     ->hasAttached(
                         Contact::factory()->count(4),
-                        fn ()=> ['role' => $available_roles[rand(0, 1)]]
+                        fn() => ['role' => $available_roles[rand(0, 1)]]
                     )
+                    ->afterCreating(function (Jiri $jiri) {
+                        $evaluated_contacts = $jiri->contacts()->wherePivot('role', '=', ContactRoles::Evaluated->value)->get();
+                        $homeworks = $jiri->homeworks()->pluck('id');
+
+                        if ($evaluated_contacts) {
+                            foreach ($evaluated_contacts as $contact) {
+                                foreach ($homeworks as $homework_id) {
+                                    $contact->homeworks()->attach($homework_id);
+                                }
+                            }
+                        }
+                    })
                     ->count(5)
             )
             ->create([
@@ -48,8 +61,18 @@ class DatabaseSeeder extends Seeder
                     )
                     ->hasAttached(
                         Contact::factory()->count(4),
-                        fn ()=> ['role' => $available_roles[rand(0, 1)]]
+                        fn() => ['role' => $available_roles[rand(0, 1)]]
                     )
+                    ->afterCreating(function (Jiri $jiri) {
+                        $evaluated_contacts = $jiri->contacts()->wherePivot('role', '=', ContactRoles::Evaluated->value)->get();
+                        $homeworks = $jiri->homeworks()->pluck('id');
+
+                        if ($evaluated_contacts) {
+                            foreach ($evaluated_contacts as $contact) {
+                                    $contact->homeworks()->attach($homeworks);
+                            }
+                        }
+                    })
                     ->count(5)
             )
             ->create();

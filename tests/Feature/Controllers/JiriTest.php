@@ -12,6 +12,7 @@ use function Pest\Laravel\assertDatabaseEmpty;
 use function Pest\Laravel\assertDatabaseHas;
 use App\Models\User;
 use function Pest\Laravel\actingAs;
+use function Pest\Laravel\assertDatabaseMissing;
 
 beforeEach(function () {
     $user = User::factory()->create();
@@ -150,4 +151,95 @@ it('verifies if jiri data is correctly inserted in the database when you create 
         ->and(Homework::all()->count())->toBe(3)
         ->and(Attendance::all()->count())->toBe(3)
         ->and(Implementation::all()->count())->toBe(9);
+});
+
+it('verifies if jiri data is correctly modified in the database when you edit the information about a jiri', function () {
+    // Créer en DB
+    $available_roles = [
+        1 => ContactRoles::Evaluated->value,
+        2 => ContactRoles::Evaluated->value,
+    ];
+
+    $jiri = Jiri::factory()->create();
+
+    $contacts = Contact::factory()
+        ->count(3)
+        ->create()
+        ->pluck('id', 'id')
+        ->toArray();
+
+    $projects = Project::factory()
+        ->count(3)
+        ->create()
+        ->pluck('id', 'id')
+        ->toArray();
+
+    $jiri->contacts()->attach($contacts, ['role' => $available_roles[rand(1, 2)]]);
+    $jiri->projects()->attach($projects);
+
+    // Créer un array requête de base
+    $data_in_database = array_merge($jiri->toArray(), [
+        'projects' => $projects,
+        'contacts' => $contacts,
+    ]);
+
+    foreach ($contacts as $key => $contact) {
+        $data_in_database['contacts'][$key] = array('role' => $available_roles[rand(1, 2)]);
+    }
+
+    // Créer un array requête modifié
+    $data_in_request = $data_in_database;
+
+    $data_in_request['name'] = 'Lorian Flamant';
+    $data_in_request['description'] = 'C’est une description';
+
+    $new_project = Project::factory()->create();
+    $data_in_request['projects'][$new_project->id] = $new_project->id;
+    unset($data_in_request['projects'][1]);
+
+    $new_contact = Contact::factory()->create();
+    $data_in_request['contacts'][$new_contact->id]['role'] = ContactRoles::Evaluated->value;
+    $data_in_request['contacts'][1]['role'] = ContactRoles::Evaluators->value;
+    $data_in_request['contacts'][2]['role'] = ContactRoles::Evaluated->value;
+    unset($data_in_request['contacts'][3]);
+
+    $response = $this->patch(route('jiris.update', $jiri['id']), $data_in_request);
+
+    assertDatabaseHas('jiris',
+        [
+            'name' => $data_in_request['name'],
+            'description' => $data_in_request['description'],
+        ]);
+
+    assertDatabaseMissing('jiris',
+        [
+            'name' => $data_in_database['name'],
+            'description' => $data_in_database['description'],
+        ]);
+
+    assertDatabaseMissing('homeworks',
+        [
+            'jiri_id' => 1,
+            'project_id' => 1
+        ]);
+
+    assertDatabaseHas('homeworks',
+        [
+            'jiri_id' => 1,
+            'project_id' => 2
+        ]);
+
+    assertDatabaseHas('attendances',
+        [
+            'contact_id' => 1,
+            'jiri_id' => 1,
+            'role' => ContactRoles::Evaluators->value,
+        ]);
+
+    assertDatabaseMissing('attendances',
+        [
+            'contact_id' => 3,
+            'jiri_id' => 1,
+            'role' => ContactRoles::Evaluators->value,
+        ]);
 });

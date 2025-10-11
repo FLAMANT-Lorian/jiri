@@ -84,12 +84,12 @@
             <legend>Projets disponibles</legend>
             @foreach($projects as $project)
                 <div class="field">
-                    <input type="checkbox" name="projects[{!! $project->id !!}]" id="projects"
+                    <input type="checkbox" name="projects[{!! $project->id !!}]" id="projects{!! $project->id !!}"
                            value="{!! $project->id !!}"
                            @if(\App\Models\Homework::where('jiri_id', $jiri->id)->where('project_id', $project->id)->first())
                                checked
                         @endif>
-                    <label for="projects">{!! $project->name !!}</label>
+                    <label for="projects{!! $project->id !!}">{!! $project->name !!}</label>
                 </div>
             @endforeach
         </fieldset>
