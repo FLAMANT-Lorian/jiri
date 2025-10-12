@@ -86,6 +86,7 @@ class JiriController extends Controller
     {
         $this->authorize('update', $jiri);
 
+        /****** Validation des données ******/
         $validated_data = $request->validate([
             'name' => 'required',
             'date' => 'required|date',
@@ -95,7 +96,7 @@ class JiriController extends Controller
             'contacts.*.role' => Rule::Enum(ContactRoles::class),
         ]);
 
-        // Update jiri
+        /****** Mise à jour des données du Jiri ******/
         $jiri->upsert(
             [
                 [
@@ -109,50 +110,46 @@ class JiriController extends Controller
             'id',
             ['name', 'description', 'date']);
 
-        // Get old_contacts for implementation
+        /****** Récupération des anciens contacts pour mettre à jour les implémentations ******/
         $old_contacts_ids = $jiri->contacts()->pluck('contact_id')->toArray();
 
-        // Update homeworks
+        /****** Mise à jour des homeworks ******/
         if (!empty($validated_data['projects'])) {
             $jiri->projects()->sync($validated_data['projects']);
         } else {
             $jiri->projects()->detach();
         }
 
-        // Update attendances
+        /****** Mise à jour des attendances ******/
         if (!empty($validated_data['contacts'])) {
             $jiri->contacts()->sync($validated_data['contacts']);
         } else {
             $jiri->contacts()->detach();
-
-            // For implementations when you don't have any contacts in the request + redirection
-            foreach ($old_contacts_ids as $old_contact_id) {
-                if ($contact = Contact::find($old_contact_id)) {
-                    $contact->homeworks()->sync([]);
-                }
-            }
-            return redirect(route('jiris.show', $jiri->id));
         }
 
-        // Update implementations when you unchecked an evaluated
-        $new_contacts_ids = array_keys($validated_data['contacts']);
+        /****** Implementation : Suppression d'un contact du jiri ******/
+        $new_contacts_ids = array_keys($validated_data['contacts'] ?? []);
         $contacts_to_remove = array_diff($old_contacts_ids, $new_contacts_ids);
 
-        foreach ($contacts_to_remove as $contact_to_remove) {
-            if ($contact = Contact::find($contact_to_remove)) {
-                $contact->homeworks()->detach();
+        if (!empty($contacts_to_remove)) {
+            foreach ($contacts_to_remove as $contact_to_remove) {
+                if ($contact = Contact::where('id', '=', $contact_to_remove)->first()) {
+                    $contact->homeworks()->detach();
+                }
             }
         }
 
-        // Update implementation when you change the role
-        foreach ($validated_data['contacts'] as $id => $contact) {
-            $homeworks_id = $jiri->homeworks()->pluck('id');
-            $correct_contact = $jiri->contacts->where('id', '=', $id)->first();
+        /****** Implementation : Changement de rôle d'un contact ******/
+        if (!empty($validated_data['contacts'])) {
+            foreach ($validated_data['contacts'] as $id => $contact) {
+                $homeworks_id = $jiri->homeworks()->pluck('id');
+                $correct_contact = $jiri->contacts->where('id', '=', $id)->first();
 
-            if ($contact['role'] === ContactRoles::Evaluated->value) {
-                $correct_contact->homeworks()->sync($homeworks_id);
-            } else {
-                $correct_contact->homeworks()->detach();
+                if ($contact['role'] === ContactRoles::Evaluated->value) {
+                    $correct_contact->homeworks()->sync($homeworks_id);
+                } else {
+                    $correct_contact->homeworks()->detach();
+                }
             }
         }
 
