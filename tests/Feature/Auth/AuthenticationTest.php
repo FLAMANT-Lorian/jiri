@@ -35,4 +35,5 @@ it('verifies if an authenticate user can’t acces to jiris.edit route of anothe
         $response = $this->patch(route('jiris.update', $jiri));
 
         $response->assertStatus(403);
-    });
+    }
+);
