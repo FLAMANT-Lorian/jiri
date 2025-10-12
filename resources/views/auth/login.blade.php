@@ -47,7 +47,7 @@
                         <input type="checkbox" name="remember_me" id="remember_me">
                         <label for="remember_me" class="pl-1">Se souvenir de moi</label>
                     </div>
-                    <a href="#" class="text-blue-500 hover:text-blue-700">Mot de passe oublié ?</a>
+                    <a href="/forgot-password" class="text-blue-500 hover:text-blue-700">Mot de passe oublié ?</a>
                 </div>
             </fieldset>
             <button
