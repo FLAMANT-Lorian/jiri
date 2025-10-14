@@ -8,9 +8,9 @@ use App\Models\User;
 use function Pest\Laravel\actingAs;
 
 beforeEach(function (){
-    $user = User::factory()->create();
+    $this->user = User::factory()->create();
 
-    actingAs($user);
+    actingAs($this->user);
 });
 
 it('is possible to retrieve many evaluated and many evaluators from a jiri', function () {
@@ -23,6 +23,7 @@ it('is possible to retrieve many evaluated and many evaluators from a jiri', fun
             Contact::factory()->count(3),
             ['role' => ContactRoles::Evaluators->value]
         )
+        ->for($this->user)
         ->create();
 
     $this->assertDatabaseCount('attendances', 10);
@@ -37,6 +38,7 @@ it('is possible to retrieve many projects from a jiri', function () {
         ->hasAttached(
             Project::factory()->count(3)
         )
+        ->for($this->user)
         ->create();
 
     $this->assertDatabaseCount('homeworks', 3);
@@ -52,6 +54,7 @@ it('is possible to retrieve many homeworks from a evaluated', function () {
             Contact::factory()->count(1),
             ['role' => ContactRoles::Evaluated->value]
         )
+        ->for($this->user)
         ->create();
 
     $contact = $jiri->evaluated()->first();

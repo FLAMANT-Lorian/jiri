@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Jiri · Se connecter</title>
+    <title>Jiri · Mot de passe oublié</title>
     @vite('resources/css/app.css', 'resources/js/app.js')
 </head>
 <body class="bg-gray-100 flex justify-center items-center min-h-screen">

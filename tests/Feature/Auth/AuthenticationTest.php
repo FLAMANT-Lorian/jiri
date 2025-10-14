@@ -6,8 +6,8 @@ use function Pest\Laravel\actingAs;
 
 describe('Authenticated User ONLY', function () {
     beforeEach(function () {
-        $user = User::factory()->create();
-        actingAs($user);
+        $this->user = User::factory()->create();
+        actingAs($this->user);
     });
 
     it('verifies if a an authenticate user can’t go to login route and redirect to jiri.index route',
@@ -21,11 +21,10 @@ describe('Authenticated User ONLY', function () {
 
 it('verifies if an authenticate user can’t acces to jiris.edit route of another user',
     function () {
-        User::factory()->create();
+        $user = User::factory()->create();
 
-        $jiri = Jiri::factory()->create([
-            'user_id' => 1,
-        ]);
+        $jiri = Jiri::factory()
+            ->for($user)->create();
 
         $other_user = User::factory()
             ->create();

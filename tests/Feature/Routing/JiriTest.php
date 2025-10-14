@@ -16,8 +16,8 @@ it('verifies if a guest can’t access to jiris.index route', function () {
 // AUTH
 describe('Authenticated User ONLY', function () {
     beforeEach(function () {
-        $user = User::factory()->create();
-        actingAs($user);
+        $this->user = User::factory()->create();
+        actingAs($this->user);
     });
 
     it('redirects to the jiri index route after the successful creation of a jiri',
@@ -36,7 +36,9 @@ describe('Authenticated User ONLY', function () {
 
     it('displays a complete list of jiries on the jiri index page', function () {
         // Arrange
-        $jiris = Jiri::factory(4)->create();
+        $jiris = Jiri::factory(4)
+            ->for($this->user)
+            ->create();
 
         // Act
         $response = $this->get('/jiris');
@@ -60,7 +62,9 @@ describe('Authenticated User ONLY', function () {
 
     it('verifies if the informations of every jiris are correct in the details views', function () {
         // Arrange
-        $jiri = Jiri::factory()->create();
+        $jiri = Jiri::factory()
+            ->for($this->user)
+            ->create();
 
         // Act
         $response = $this->get(route('jiris.show', $jiri->id));

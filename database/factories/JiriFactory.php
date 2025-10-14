@@ -17,7 +17,6 @@ class JiriFactory extends Factory
             'name' => $this->faker->name(),
             'date' => Carbon::now(),
             'description' => $this->faker->optional()->text(),
-            'user_id' => rand(1, count(User::all())),
         ];
     }
 

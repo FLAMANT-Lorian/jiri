@@ -6,9 +6,9 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 
 beforeEach(function (){
-    $user = User::factory()->create();
+    $this->user = User::factory()->create();
 
-    actingAs($user);
+    actingAs($this->user);
 });
 
 it('creates a project and redirects to the project index', function () {

@@ -6,9 +6,9 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 
 beforeEach(function () {
-    $user = User::factory()->create();
+    $this->user = User::factory()->create();
 
-    actingAs($user);
+    actingAs($this->user);
 });
 
 it('verifies that the jiris.create route displays a form to create a jiri', function (string $locale, string $main_heading) {
@@ -55,7 +55,9 @@ it('verifies if the jiris in the dashboard page are associated to the current us
 
 it('verifies if a jiri.edit route exist and displays a update form',
     function () {
-        $jiri = Jiri::factory()->create();
+        $jiri = Jiri::factory()
+            ->for($this->user)
+            ->create();
 
         $response = $this->get(route('jiris.edit', $jiri->id));
 

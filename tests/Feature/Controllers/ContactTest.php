@@ -12,9 +12,9 @@ use App\Models\User;
 use function Pest\Laravel\actingAs;
 
 beforeEach(function (){
-    $user = User::factory()->create();
+    $this->user = User::factory()->create();
 
-    actingAs($user);
+    actingAs($this->user);
 });
 
 it('verifies if you give a false value to a specific column in the table', function () {
@@ -53,6 +53,7 @@ it('verifies if a contact is correctly inserted in the database when you create 
             Project::factory()->count(3)->create()
         )
         ->count(3)
+        ->for($this->user)
         ->create()
         ->pluck('id', 'id')
         ->toArray();

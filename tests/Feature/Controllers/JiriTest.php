@@ -15,9 +15,9 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseMissing;
 
 beforeEach(function () {
-    $user = User::factory()->create();
+    $this->user = User::factory()->create();
 
-    actingAs($user);
+    actingAs($this->user);
 });
 it('creates successfully a jiri from the data provided by the request', function () {
     // Arrange
@@ -68,7 +68,9 @@ it('fails to create a new jiri in database when there the date is incorrect in t
 
 it('displays a complete list of jiries on the jiri index page', function () {
     // Arrange
-    $jiris = Jiri::factory(4)->create();
+    $jiris = Jiri::factory(4)
+        ->for($this->user)
+        ->create();
 
     // Act
     $response = $this->get('/jiris');
@@ -93,7 +95,9 @@ it('verifies if there are no jiris and displays an error message', function () {
 
 it('verifies if the informations of every jiris are correct in the details views', function () {
     // Arrange
-    $jiri = Jiri::factory()->create();
+    $jiri = Jiri::factory()
+        ->for($this->user)
+        ->create();
 
     // Act
     $response = $this->get(route('jiris.show', $jiri->id));
@@ -160,7 +164,9 @@ it('verifies if jiri data is correctly modified in the database when you edit th
         2 => ContactRoles::Evaluated->value,
     ];
 
-    $jiri = Jiri::factory()->create();
+    $jiri = Jiri::factory()
+        ->for($this->user)
+        ->create();
 
     $contacts = Contact::factory()
         ->count(3)

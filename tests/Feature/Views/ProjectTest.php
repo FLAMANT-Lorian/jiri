@@ -5,9 +5,9 @@ use App\Models\User;
 use function Pest\Laravel\actingAs;
 
 beforeEach(function (){
-    $user = User::factory()->create();
+    $this->user = User::factory()->create();
 
-    actingAs($user);
+    actingAs($this->user);
 });
 
 it('verifies if there are no project and displays an error message', function () {

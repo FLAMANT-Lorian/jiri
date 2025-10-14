@@ -5,9 +5,9 @@ use App\Models\User;
 use function Pest\Laravel\actingAs;
 
 beforeEach(function (){
-    $user = User::factory()->create();
+    $this->user = User::factory()->create();
 
-    actingAs($user);
+    actingAs($this->user);
 });
 
 it('displays a complete list of contacts on the contact index page', function () {
