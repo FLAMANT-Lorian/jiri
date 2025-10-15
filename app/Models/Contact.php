@@ -31,7 +31,7 @@ class Contact extends Model
 
     public function jiris(): BelongsToMany
     {
-        return $this->belongsToMany(Jiri::class, 'attendances');
+        return $this->belongsToMany(Jiri::class, 'attendances')->withPivot('role');
     }
 
     public function user(): BelongsTo
