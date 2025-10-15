@@ -7,17 +7,24 @@ use Intervention\Image\Laravel\Facades\Image;
 
 trait HandleImages
 {
-    public function resize300($avatar): string
+    public function generateAllSizedImages($avatar): string
     {
-        $image = Image::read($avatar)
-            ->cover(300, 300)
-            ->toJpeg(80);
+        $unique_id = uniqid();
 
-        $file_name = 'contact_' . uniqid() . '_300x300.jpg';
-        $path = "contacts/$file_name";
+        $path_db = 'contact_' . $unique_id . '.jpg';
 
-        Storage::disk('public')->put($path, $image->toString());
+        foreach (config('avatars.sizes') as $key => $size) {
+            $base_file_name = 'contact_' . $unique_id . '.jpg';
+            $file_name = substr_replace($base_file_name, '_' . $size['format'], -4, 0);
 
-        return $path;
+            $image = Image::read($avatar)
+                ->cover($size['width'], $size['height'])
+                ->toJpeg(80);
+
+            $path_storage = "contacts/$key/$file_name";
+            Storage::disk('public')->put($path_storage, $image->toString());
+        }
+
+        return $path_db;
     }
 }

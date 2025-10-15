@@ -16,14 +16,14 @@
                 @error('name')
                 <p class="error">{{ $message }}</p>
                 @enderror
-                <input type="text" name="name" id="name" value="{!! old('name') !!}">
+                <input type="text" name="name" id="name" value="{!! old('name') !!}" autocomplete="off">
             </div>
             <div class="field">
                 <label for="email">Adresse mail du contact<strong> *</strong></label>
                 @error('email')
                 <p class="error">{{ $message }}</p>
                 @enderror
-                <input type="text" name="email" id="email" value="{!! old('email') !!}">
+                <input type="text" name="email" id="email" value="{!! old('email') !!}" autocomplete="off">
             </div>
             <div class="field">
                 <input type="hidden" name="MAX_FILE_SIZE" value="300000" />
@@ -44,8 +44,8 @@
                            value="{!! $jiri->id !!}"
                            id="jiri{!! $jiri->id !!}">
 
-                    <label for="role">Role<strong> *</strong></label>
-                    <select name="jiris[{!! $jiri->id !!}][role]" id="role">
+                    <label for="role{!! $jiri->id !!}">Role<strong> *</strong></label>
+                    <select name="jiris[{!! $jiri->id !!}][role]" id="role{!! $jiri->id !!}">
                         @foreach(\App\Enums\ContactRoles::cases() as $role)
                             <option value="{!! $role->value !!}">{!! __('labels-buttons.'.$role->value) !!}</option>
                         @endforeach
@@ -54,9 +54,9 @@
                     <div class="sub_fields" style="margin-left: 24px">
                         @foreach($jiri->projects as $project)
                             <div class="sub_field">
-                                <label for="projects{!! $project->id !!}">{!! $project->name !!}</label>
+                                <label for="projects{!! $project->id . '_' . $jiri->id !!}">{!! $project->name !!}</label>
                                 <input type="checkbox" name="jiris[{!! $jiri->id !!}][homeworks][]"
-                                       value="{!! $project->id !!}" id="projects{!! $project->id !!}">
+                                       value="{!! $project->id !!}" id="projects{!! $project->id . '_' . $jiri->id !!}">
                             </div>
                         @endforeach
                     </div>

@@ -17,7 +17,7 @@ class Jiri extends Model
 
     public function contacts(): BelongsToMany
     {
-        return $this->belongsToMany(Contact::class, 'attendances');
+        return $this->belongsToMany(Contact::class, 'attendances')->withPivot('role');
     }
 
     public function attendances(): HasMany
