@@ -11,7 +11,9 @@
         <ul>
             @foreach($contacts as $contact)
                 <li>
-                    {!! $contact->name !!}
+                    <a href="{!! route('contacts.show', $contact->id) !!}">
+                        {!! $contact->name !!}
+                    </a>
                 </li>
             @endforeach
         </ul>

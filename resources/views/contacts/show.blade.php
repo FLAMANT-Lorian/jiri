@@ -28,15 +28,17 @@
                 {!! $contact->email !!}
             </dd>
         </div>
-        <div>
-            <dt class="text-2xl font-bold pb-1">
-                Avatar du contact
-            </dt>
-            <dd class="max-w-xs">
-                <img src="{!! asset('storage/'.$contact->avatar) !!}"
-                     alt="Avatar de {!! $contact->name !!}">
-            </dd>
-        </div>
+        @if(isset($contact['avatar']))
+            <div>
+                <dt class="text-2xl font-bold pb-1">
+                    Avatar du contact
+                </dt>
+                <dd class="max-w-xs">
+                    <img src="{!! asset('storage/'.$contact->avatar) !!}"
+                         alt="Avatar de {!! $contact->name !!}">
+                </dd>
+            </div>
+        @endif
     </dl>
 </body>
 </html>

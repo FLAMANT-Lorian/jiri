@@ -10,7 +10,7 @@ trait HandleImages
     public function resize300($avatar): string
     {
         $image = Image::read($avatar)
-            ->resize(300, 300)
+            ->cover(300, 300)
             ->toJpeg(80);
 
         $file_name = 'contact_' . uniqid() . '_300x300.jpg';

@@ -12,7 +12,9 @@ beforeEach(function (){
 
 it('displays a complete list of contacts on the contact index page', function () {
     // Arrange
-    $contacts = Contact::factory(4)->create();
+    $contacts = Contact::factory(4)
+        ->for($this->user)
+        ->create();
 
     // Act
     $response = $this->get('/contacts');
@@ -49,3 +51,15 @@ it('verifies that the contacts.create route displays a form to create a contact'
         ['en', 'Create a contact'],
     ]
 );
+
+it('verifies if you can access to contacts.show view', function () {
+    $contact = Contact::factory()
+        ->for($this->user)
+        ->create();
+
+    $response = $this->get(route('contacts.show', $contact->id));
+
+    $response->assertStatus(200);
+    $response->assertViewIs('contacts.show');
+    $response->assertSeeInOrder([$contact->name, $contact->email]);
+});
