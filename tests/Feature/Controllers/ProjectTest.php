@@ -3,7 +3,7 @@
 use App\Models\Project;
 use App\Models\User;
 use function Pest\Laravel\actingAs;
-use function Pest\Laravel\get;
+use function Pest\Laravel\assertDatabaseHas;
 
 beforeEach(function (){
     $this->user = User::factory()->create();
@@ -13,15 +13,17 @@ beforeEach(function (){
 
 it('creates a project and redirects to the project index', function () {
     // Arrange
-    $project = Project::factory()->make()->toArray();
+    $project = Project::factory()
+        ->make()
+        ->toArray();
 
     // Act
-    $response = $this->post('/projects', $project);
+    $response = $this->post(route('projects.store'), $project);
 
     // Assert
     $response->assertStatus(302);
-    $response->assertRedirect('/projects');
-    \Pest\Laravel\assertDatabaseHas('projects',
+    $response->assertRedirect(route('projects.index'));
+    assertDatabaseHas('projects',
         [
             'name' => $project['name'],
         ]);

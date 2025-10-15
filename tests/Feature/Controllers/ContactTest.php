@@ -7,11 +7,14 @@ use App\Models\Homework;
 use App\Models\Implementation;
 use App\Models\Jiri;
 use App\Models\Project;
-use function Pest\Laravel\assertDatabaseHas;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
+use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\actingAs;
+use Intervention\Image\Laravel\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 
-beforeEach(function (){
+beforeEach(function () {
     $this->user = User::factory()->create();
 
     actingAs($this->user);
@@ -29,29 +32,45 @@ it('verifies if you give a false value to a specific column in the table', funct
 });
 
 it('creates a contact and redirects to the contact index', function () {
-    // Arrange
-    $contact = Contact::factory()->make()->toArray();
+    Storage::fake('public');
+    $avatar = UploadedFile::fake()->image('photo.jpg');
 
-    // Act
-    $response = $this->post('/contacts', $contact);
+    $contact = [
+        'name' => 'Lorian',
+        'email' => 'test@test.be',
+        'avatar' => $avatar,
+    ];
 
-    // Assert
+    $response = $this->post(route('contacts.store'), $contact);
+
+    $contact = Contact::first();
+    Storage::disk('public')->assertExists($contact->avatar);
+
     $response->assertStatus(302);
-    $response->assertRedirect('/contacts');
-    assertDatabaseHas('contacts',
-        [
-            'name' => $contact['name'],
-            'email' => $contact['email'],
-        ]);
+    $response->assertRedirect(route('contacts.show', $contact->id));
+    assertDatabaseHas('contacts', ['name' => $contact['name'],]);
+
+    $image = Image::read(
+        Storage::disk('public')
+            ->get($contact->avatar)
+    );
+
+    expect($image->width())
+        ->toBeLessThanOrEqual(300)
+        ->and($image->height())
+        ->toBeLessThanOrEqual(300);
 });
 
 it('verifies if a contact is correctly inserted in the database when you create a contact associate to a jiri', function () {
     $contact = Contact::factory()->raw();
 
+    $projects = Project::factory()
+        ->count(3)
+        ->for($this->user)
+        ->create();
+
     $jiris = Jiri::factory()
-        ->hasAttached(
-            Project::factory()->count(3)->create()
-        )
+        ->hasAttached($projects)
         ->count(3)
         ->for($this->user)
         ->create()

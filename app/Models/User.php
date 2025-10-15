@@ -51,4 +51,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Jiri::class);
     }
+
+    public function contacts():HasMany
+    {
+        return $this->hasMany(Contact::class);
+    }
+
+    public function projects():HasMany
+    {
+        return $this->hasMany(Project::class);
+    }
 }

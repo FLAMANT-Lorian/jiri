@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
@@ -19,7 +20,7 @@ class ProjectController extends Controller
             'name' => 'required',
         ]);
 
-        Project::create($validated_data);
+        Auth::user()->projects()->create($validated_data);
 
         return redirect(route('projects.index'));
     }

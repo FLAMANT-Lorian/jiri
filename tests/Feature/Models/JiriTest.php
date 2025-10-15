@@ -7,20 +7,30 @@ use App\Models\Project;
 use App\Models\User;
 use function Pest\Laravel\actingAs;
 
-beforeEach(function (){
+beforeEach(function () {
     $this->user = User::factory()->create();
 
     actingAs($this->user);
 });
 
 it('is possible to retrieve many evaluated and many evaluators from a jiri', function () {
+    $contact1 = Contact::factory()
+        ->count(7)
+        ->for($this->user)
+        ->create();
+
+    $contact2 = Contact::factory()
+        ->count(3)
+        ->for($this->user)
+        ->create();
+
     $jiri = Jiri::factory()
         ->hasAttached(
-            Contact::factory()->count(7),
+            $contact1,
             ['role' => ContactRoles::Evaluated->value]
         )
         ->hasAttached(
-            Contact::factory()->count(3),
+            $contact2,
             ['role' => ContactRoles::Evaluators->value]
         )
         ->for($this->user)
@@ -34,9 +44,14 @@ it('is possible to retrieve many evaluated and many evaluators from a jiri', fun
 });
 
 it('is possible to retrieve many projects from a jiri', function () {
+    $projects = Project::factory()
+        ->count(3)
+        ->for($this->user)
+        ->create();
+
     $jiri = Jiri::factory()
         ->hasAttached(
-            Project::factory()->count(3)
+            $projects
         )
         ->for($this->user)
         ->create();
@@ -46,12 +61,21 @@ it('is possible to retrieve many projects from a jiri', function () {
 });
 
 it('is possible to retrieve many homeworks from a evaluated', function () {
+    $projects = Project::factory()
+        ->count(3)
+        ->for($this->user)
+        ->create();
+
+    $contacts = Contact::factory()
+        ->for($this->user)
+        ->create();
+
     $jiri = Jiri::factory()
         ->hasAttached(
-            Project::factory()->count(3)
+            $projects
         )
         ->hasAttached(
-            Contact::factory()->count(1),
+            $contacts,
             ['role' => ContactRoles::Evaluated->value]
         )
         ->for($this->user)
