@@ -15,10 +15,10 @@ trait HandleImages
 
         foreach (config('avatars.sizes') as $key => $size) {
             $base_file_name = 'contact_' . $unique_id . '.jpg';
-            $file_name = substr_replace($base_file_name, "_$size", -4, 0);
+            $file_name = substr_replace($base_file_name, '_' . $size['format'], -4, 0);
 
             $image = Image::read($avatar)
-                ->cover($key, $key)
+                ->cover($size['width'], $size['height'])
                 ->toJpeg(80);
 
             $path_storage = "contacts/$key/$file_name";
