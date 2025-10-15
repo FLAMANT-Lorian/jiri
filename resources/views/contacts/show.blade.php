@@ -10,7 +10,8 @@
     <h1 class="text-4xl text-center">
         Récapitulatif pour {!! $contact->name !!}
     </h1>
-    <a href="#" class="text-blue-500 hover:text-blue-700">Modifier le contact</a>
+    <a href="{!! route('contacts.edit', $contact->id) !!}" class="text-blue-500 hover:text-blue-700">Modifier le
+        contact</a>
     <dl class="flex gap-6 flex-col">
         <div>
             <dt class="text-2xl font-bold pb-1">
@@ -34,8 +35,9 @@
                     Avatar du contact
                 </dt>
                 <dd class="max-w-xs">
-                    <img src="{!! asset('storage/'.$contact->avatar) !!}"
-                         alt="Avatar de {!! $contact->name !!}">
+                    <img
+                        src="{!! asset('storage/contacts/200/' .substr_replace($contact->avatar, "_200x200", -4, 0)) !!}"
+                        alt="Avatar de {!! $contact->name !!}">
                 </dd>
             </div>
         @endif

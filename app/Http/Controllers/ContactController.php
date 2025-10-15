@@ -33,7 +33,7 @@ class ContactController extends Controller
         ]);
 
         if (request()->hasFile('avatar')) {
-            $validated_data['avatar'] = $this->resize300($validated_data['avatar']);
+            $validated_data['avatar'] = $this->generateAllSizedImages($validated_data['avatar']);
         }
 
         $contact = Auth::user()->contacts()->create($validated_data);
@@ -62,5 +62,10 @@ class ContactController extends Controller
     {
         $jiris = Jiri::all();
         return view('contacts.create', compact('jiris'));
+    }
+
+    public function edit(Contact $contact)
+    {
+        return view('contacts.edit', compact('contact'));
     }
 }

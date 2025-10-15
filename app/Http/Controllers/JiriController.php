@@ -34,11 +34,7 @@ class JiriController extends Controller
             'contacts.*.role' => Rule::Enum(ContactRoles::class),
         ]);
 
-        $jiri = Jiri::create(array_merge(
-            $validated_data,
-            [
-                'user_id' => Auth::user()->id
-            ]));
+        $jiri = Auth::user()->jiris()->create($validated_data);
 
         if (!empty($validated_data['projects'])) {
             $jiri->projects()->attach($validated_data['projects']);

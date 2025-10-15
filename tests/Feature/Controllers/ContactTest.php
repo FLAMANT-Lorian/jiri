@@ -44,7 +44,7 @@ it('creates a contact and redirects to the contact index', function () {
     $response = $this->post(route('contacts.store'), $contact);
 
     $contact = Contact::first();
-    Storage::disk('public')->assertExists($contact->avatar);
+    Storage::disk('public')->assertExists('contacts/200/' . substr_replace($contact->avatar, "_200x200", -4, 0));
 
     $response->assertStatus(302);
     $response->assertRedirect(route('contacts.show', $contact->id));
@@ -52,7 +52,7 @@ it('creates a contact and redirects to the contact index', function () {
 
     $image = Image::read(
         Storage::disk('public')
-            ->get($contact->avatar)
+            ->get('contacts/200/' . substr_replace($contact->avatar, "_200x200", -4, 0))
     );
 
     expect($image->width())

@@ -12,6 +12,6 @@ Route::get('/', function () {
 // À la place d'écrire les 7 routes, il les fait toutes pour nous !
 Route::resource('jiris', JiriController::class)->middleware('auth');
 
-Route::resource('contacts', ContactController::class);
+Route::resource('contacts', ContactController::class)->middleware('auth');
 
 Route::resource('projects', ProjectController::class);
