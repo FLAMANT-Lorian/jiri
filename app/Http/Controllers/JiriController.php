@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Enums\ContactRoles;
 use App\Models\Contact;
 use App\Models\Jiri;
-use App\Models\Project;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -62,8 +61,8 @@ class JiriController extends Controller
 
     public function create()
     {
-        $contacts = Contact::all();
-        $projects = Project::all();
+        $contacts = Auth::user()->contacts;
+        $projects = Auth::user()->projects;
 
         return view('jiris.create', compact('contacts', 'projects'));
     }
@@ -71,8 +70,8 @@ class JiriController extends Controller
     public function edit(Jiri $jiri)
     {
         // Récupérer les données du jiri
-        $contacts = Contact::all();
-        $projects = Project::all();
+        $contacts = Auth::user()->contacts;
+        $projects = Auth::user()->projects;
 
         return view('jiris.edit', compact('jiri', 'contacts', 'projects'));
     }
