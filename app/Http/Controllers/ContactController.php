@@ -4,18 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Enums\ContactRoles;
 use App\Models\Contact;
-use App\Models\Jiri;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use App\Concerns\HandleImages;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ContactController extends Controller
 {
+    use AuthorizesRequests;
     use HandleImages;
     public function index()
     {
-        $contacts = Contact::all();
+        $contacts = Auth::user()->contacts;
 
         return view('contacts.index', compact('contacts'));
     }
@@ -60,12 +61,21 @@ class ContactController extends Controller
 
     public function create()
     {
-        $jiris = Jiri::all();
+        $jiris = Auth::user()->jiris;
         return view('contacts.create', compact('jiris'));
     }
 
     public function edit(Contact $contact)
     {
         return view('contacts.edit', compact('contact'));
+    }
+
+    public function update(Contact $contact)
+    {
+        $this->authorize('update', $contact);
+
+        // TODO : Faire la validation
+
+        return redirect(route('contacts.show',$contact->id));
     }
 }
