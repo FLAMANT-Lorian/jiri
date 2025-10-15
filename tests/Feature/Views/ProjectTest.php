@@ -19,7 +19,9 @@ it('verifies if there are no project and displays an error message', function ()
 });
 
 it('verifies if the informations of every project are correct in the project views', function () {
-    $project = Project::factory()->create();
+    $project = Project::factory()
+        ->for($this->user)
+        ->create();
 
     $response = $this->get('/projects/'.$project->id);
 
@@ -30,7 +32,9 @@ it('verifies if the informations of every project are correct in the project vie
 
 it('displays a complete list of projects on the project index page', function () {
     // Arrange
-    $projects = Project::factory(4)->create();
+    $projects = Project::factory(4)
+        ->for($this->user)
+        ->create();
 
     // Act
     $response = $this->get('/projects');

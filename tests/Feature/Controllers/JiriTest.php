@@ -124,12 +124,14 @@ it('verifies if jiri data is correctly inserted in the database when you create 
 
     $contacts = Contact::factory()
         ->count(3)
+        ->for($this->user)
         ->create()
         ->pluck('id', 'id')
         ->toArray();
 
     $projects = Project::factory()
         ->count(3)
+        ->for($this->user)
         ->create()
         ->pluck('id', 'id')
         ->toArray();
@@ -170,12 +172,14 @@ it('verifies if jiri data is correctly modified in the database when you edit th
 
     $contacts = Contact::factory()
         ->count(3)
+        ->for($this->user)
         ->create()
         ->pluck('id', 'id')
         ->toArray();
 
     $projects = Project::factory()
         ->count(3)
+        ->for($this->user)
         ->create()
         ->pluck('id', 'id')
         ->toArray();
@@ -199,11 +203,11 @@ it('verifies if jiri data is correctly modified in the database when you edit th
     $data_in_request['name'] = 'Lorian Flamant';
     $data_in_request['description'] = 'C’est une description';
 
-    $new_project = Project::factory()->create();
+    $new_project = Project::factory()->for($this->user)->create();
     $data_in_request['projects'][$new_project->id] = $new_project->id;
     unset($data_in_request['projects'][1]);
 
-    $new_contact = Contact::factory()->create();
+    $new_contact = Contact::factory()->for($this->user)->create();
     $data_in_request['contacts'][$new_contact->id]['role'] = ContactRoles::Evaluated->value;
     $data_in_request['contacts'][1]['role'] = ContactRoles::Evaluators->value;
     $data_in_request['contacts'][2]['role'] = ContactRoles::Evaluated->value;

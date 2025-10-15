@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ContactRoles;
-use App\Models\Attendance;
 use App\Models\Contact;
 use App\Models\Jiri;
 use App\Models\Project;

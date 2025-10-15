@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ContactRoles;
-use App\Models\Attendance;
 use App\Models\Contact;
-use App\Models\Implementation;
 use App\Models\Jiri;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use App\Concerns\HandleImages;
 
 class ContactController extends Controller
 {
+    use HandleImages;
     public function index()
     {
         $contacts = Contact::all();
@@ -18,18 +20,23 @@ class ContactController extends Controller
         return view('contacts.index', compact('contacts'));
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $validated_data = request()->validate([
+        $validated_data = $request->validate([
             'name' => 'required',
             'email' => 'required|email:rfc|unique:contacts',
             'jiris' => 'nullable',
             'jiris.*.role' => Rule::enum(ContactRoles::class),
             'jiris.*.homeworks' => 'nullable|array',
             'jiris.*.homeworks.*' => 'nullable|integer|exists:homeworks,id',
+            'avatar' => 'nullable|image'
         ]);
 
-        $contact = Contact::create($validated_data);
+        if (request()->hasFile('avatar')) {
+            $validated_data['avatar'] = $this->resize300($validated_data['avatar']);
+        }
+
+        $contact = Auth::user()->contacts()->create($validated_data);
 
         if (!empty($validated_data['jiris'])) {
             foreach ($validated_data['jiris'] as $id => $jiri) {
@@ -43,7 +50,7 @@ class ContactController extends Controller
             }
         }
 
-        return redirect(route('contacts.index'));
+        return redirect(route('contacts.show', $contact));
     }
 
     public function show(Contact $contact)
