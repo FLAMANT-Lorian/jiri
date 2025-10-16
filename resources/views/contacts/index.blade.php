@@ -77,10 +77,10 @@
                 checkboxes.forEach(checkbox => {
                     if (e.currentTarget.checked) {
                         checkbox.checked = true;
-                        checkbox.title = 'Désélectionner tous les Jiris';
+                        checkbox.title = 'Désélectionner tous les contacts';
                     } else {
                         checkbox.checked = false;
-                        checkbox.title = 'Sélectionner tous les Jiris';
+                        checkbox.title = 'Sélectionner tous les contacts';
                     }
                 });
             });

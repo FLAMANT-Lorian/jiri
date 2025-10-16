@@ -36,7 +36,7 @@
                                     <label for="row{!! $project->id !!}" class="sr-only">Séléctionner le projets</label>
                                 </th>
                                 <td class="text-gray-900 py-4">
-                                    <a href="{!! route('jiris.show', $project->id) !!}" class="hover:text-blue-700 transition-all">
+                                    <a href="{!! route('projects.show', $project->id) !!}" class="hover:text-blue-700 transition-all">
                                         {!! $project->name !!}
                                     </a>
                                 </td>
@@ -67,10 +67,10 @@
                 checkboxes.forEach(checkbox => {
                     if (e.currentTarget.checked) {
                         checkbox.checked = true;
-                        checkbox.title = 'Désélectionner tous les Jiris';
+                        checkbox.title = 'Désélectionner tous les projets';
                     } else {
                         checkbox.checked = false;
-                        checkbox.title = 'Sélectionner tous les Jiris';
+                        checkbox.title = 'Sélectionner tous les projets';
                     }
                 });
             });

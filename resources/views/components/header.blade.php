@@ -10,7 +10,7 @@
     <nav>
         @include('components.menu.side-menu')
     </nav>
-    <form class="mt-auto" action="" method="">
+    <form class="mt-auto" action="" method="post">
         @csrf
         <button
             class="font-medium block px-6 py-2.5 rounded-xl bg-red-100 border border-red-200 hover:bg-red-200 hover:border-red-300 transition-all">
