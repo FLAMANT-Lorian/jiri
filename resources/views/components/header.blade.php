@@ -16,9 +16,10 @@
         <nav>
             @include('components.side-menu.side-menu')
         </nav>
-        <a class="mt-auto font-medium block px-6 py-2.5 rounded-xl bg-red-100 border border-red-200 hover:bg-red-200 hover:border-red-300 transition-all"
-           href="#"
-           title="Me deconnecter">
+        <form class="mt-auto" action="" method="">
+            @csrf
+        <button class="font-medium block px-6 py-2.5 rounded-xl bg-red-100 border border-red-200 hover:bg-red-200 hover:border-red-300 transition-all">
             Me déconnecter
-        </a>
+        </button>
+        </form>
     </header>
