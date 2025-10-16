@@ -28,7 +28,8 @@ it('displays a complete list of contacts on the contact index page',
         foreach ($contacts as $contact) {
             $response->assertSee($contact->name, false);
         }
-    });
+    }
+);
 
 it('verifies if there are no contact and displays an error message',
     function () {
@@ -37,7 +38,8 @@ it('verifies if there are no contact and displays an error message',
 
         // Assert
         $response->assertSee('<h1>Il n’y a pas de contact disponible</h1>', false);
-    });
+    }
+);
 
 it('verifies that the contacts.create route displays a form to create a contact',
     function (string $locale, string $main_heading) {
@@ -72,13 +74,14 @@ it('verifies if you can access to contacts.show view',
 
 it('verifies if the contacts.edit view displays a form',
     function () {
-    $contact = Contact::factory()
-        ->for($this->user)
-        ->create();
+        $contact = Contact::factory()
+            ->for($this->user)
+            ->create();
 
-    $response = $this->get(route('contacts.edit', $contact->id));
+        $response = $this->get(route('contacts.edit', $contact->id));
 
-    $response->assertStatus(200);
-    $response->assertViewIs('contacts.edit');
-    $response->assertSeeInOrder(['Modifier les informations du contact', '<form', 'Modifier le contact']);
-});
+        $response->assertStatus(200);
+        $response->assertViewIs('contacts.edit');
+        $response->assertSeeInOrder(['Modifier les informations du contact', '<form', 'Modifier le contact']);
+    }
+);
