@@ -88,10 +88,10 @@ it('displays a complete list of jiries on the jiri index page',
         // Assert
         $response->assertStatus(200);
         $response->assertViewIs('jiris.index');
-        $response->assertSee('<h1>Jiris disponible</h1>', false);
+        $response->assertSee('Vos Jiris');
 
         foreach ($jiris as $jiri) {
-            $response->assertSee($jiri->name, false);
+            $response->assertSee($jiri->name);
         }
     }
 );
@@ -102,7 +102,7 @@ it('verifies if there are no jiris and displays an error message',
         $response = $this->get('/jiris');
 
         // Assert
-        $response->assertSee('<h1>Il n’y a pas de jiri disponible</h1>', false);
+        $response->assertSee('Il n’y a pas de jiri disponible');
     }
 );
 

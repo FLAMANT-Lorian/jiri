@@ -54,6 +54,8 @@
                     </tbody>
                 </table>
             </section>
+        @else
+            <p>Il n’y a pas de projet disponible</p>
         @endif
     </main>
     <script>

@@ -62,6 +62,8 @@
                     </tbody>
                 </table>
             </section>
+        @else
+            <p>Il n’y a pas de jiri disponible</p>
         @endif
     </main>
     <script>

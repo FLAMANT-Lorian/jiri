@@ -49,10 +49,10 @@ describe('Authenticated User ONLY', function () {
             // Assert
             $response->assertStatus(200);
             $response->assertViewIs('jiris.index');
-            $response->assertSee('<h1>Jiris disponible</h1>', false);
+            $response->assertSee('Vos Jiris');
 
             foreach ($jiris as $jiri) {
-                $response->assertSee($jiri->name, false);
+                $response->assertSee($jiri->name);
             }
         }
     );
@@ -62,7 +62,7 @@ describe('Authenticated User ONLY', function () {
             $response = $this->get('/jiris');
 
             // Assert
-            $response->assertSee('<h1>Il n’y a pas de jiri disponible</h1>', false);
+            $response->assertSee('Il n’y a pas de jiri disponible');
         }
     );
 

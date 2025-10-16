@@ -23,10 +23,10 @@ it('displays a complete list of contacts on the contact index page',
         // Assert
         $response->assertStatus(200);
         $response->assertViewIs('contacts.index');
-        $response->assertSee('<h1>Contacts disponibles</h1>', false);
+        $response->assertSee('Vos contacts');
 
         foreach ($contacts as $contact) {
-            $response->assertSee($contact->name, false);
+            $response->assertSee($contact->name);
         }
     }
 );
@@ -37,7 +37,7 @@ it('verifies if there are no contact and displays an error message',
         $response = $this->get('/contacts');
 
         // Assert
-        $response->assertSee('<h1>Il n’y a pas de contact disponible</h1>', false);
+        $response->assertSee('Il n’y a pas de contact disponible');
     }
 );
 

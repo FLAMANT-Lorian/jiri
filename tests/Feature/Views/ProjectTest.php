@@ -16,7 +16,7 @@ it('verifies if there are no project and displays an error message',
         $response = $this->get('/projects');
 
         // Assert
-        $response->assertSee('<h1>Il n’y a pas de projet disponible</h1>', false);
+        $response->assertSee('Il n’y a pas de projet disponible');
     }
 );
 
@@ -47,10 +47,10 @@ it('displays a complete list of projects on the project index page',
         // Assert
         $response->assertStatus(200);
         $response->assertViewIs('projects.index');
-        $response->assertSee('<h1>Projets disponibles</h1>', false);
+        $response->assertSee('Vos projets');
 
         foreach ($projects as $project) {
-            $response->assertSee($project->name, false);
+            $response->assertSee($project->name);
         }
     }
 );

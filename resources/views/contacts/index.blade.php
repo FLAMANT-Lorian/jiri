@@ -64,6 +64,8 @@
                     </tbody>
                 </table>
             </section>
+        @else
+            <p>Il n’y a pas de contact disponible</p>
         @endif
     </main>
     <script>
