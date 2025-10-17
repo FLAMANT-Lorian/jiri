@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ContactRoles;
+use App\Http\Requests\StoreJiriRequest;
 use App\Models\Contact;
 use App\Models\Jiri;
 use Illuminate\Http\RedirectResponse;
@@ -22,16 +23,9 @@ class JiriController extends Controller
         return view('jiris.index', compact('jiris'));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(StoreJiriRequest $request): RedirectResponse
     {
-        $validated_data = $request->validate([
-            'name' => 'required',
-            'date' => 'required|date',
-            'description' => 'nullable',
-            'projects.*' => 'nullable|integer|exists:projects,id',
-            'contacts.*' => 'nullable|array',
-            'contacts.*.role' => Rule::Enum(ContactRoles::class),
-        ]);
+        $validated_data = $request->validated();
 
         $jiri = Auth::user()->jiris()->create($validated_data);
 

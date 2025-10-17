@@ -6,9 +6,7 @@ use App\Enums\ContactRoles;
 use App\Http\Requests\StoreContactRequest;
 use App\Models\Contact;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 use App\Concerns\HandleImages;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
