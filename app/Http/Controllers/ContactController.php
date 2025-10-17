@@ -28,7 +28,7 @@ class ContactController extends Controller
         $validated_data = $request->validated();
 
         if (request()->hasFile('avatar')) {
-            $validated_data['avatar'] = $this->generateAllSizedImages($validated_data['avatar']);
+            $validated_data['avatar'] = $this->generateAvatarImages($validated_data['avatar']);
         }
 
         $contact = Auth::user()->contacts()->create($validated_data);
