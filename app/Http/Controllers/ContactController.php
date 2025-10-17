@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ContactRoles;
+use App\Http\Requests\StoreContactRequest;
 use App\Models\Contact;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -21,17 +23,9 @@ class ContactController extends Controller
         return view('contacts.index', compact('contacts'));
     }
 
-    public function store(Request $request)
+    public function store(StoreContactRequest $request): RedirectResponse
     {
-        $validated_data = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email:rfc|unique:contacts',
-            'jiris' => 'nullable',
-            'jiris.*.role' => Rule::enum(ContactRoles::class),
-            'jiris.*.homeworks' => 'nullable|array',
-            'jiris.*.homeworks.*' => 'nullable|integer|exists:homeworks,id',
-            'avatar' => 'nullable|image'
-        ]);
+        $validated_data = $request->validated();
 
         if (request()->hasFile('avatar')) {
             $validated_data['avatar'] = $this->generateAllSizedImages($validated_data['avatar']);

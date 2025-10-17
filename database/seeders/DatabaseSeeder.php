@@ -24,9 +24,9 @@ class DatabaseSeeder extends Seeder
         ];
 
         $user1 = User::factory()->create([
-            'name' => 'Flamant Ambre',
-            'email' => 'ambre.flamant30@gmail.com',
-            'password' => password_hash('VictoriaLorian', PASSWORD_BCRYPT),
+            'name' => 'Flamant Lorian',
+            'email' => 'lorian.flamant05@gmail.com',
+            'password' => password_hash('Lorian', PASSWORD_BCRYPT),
         ]);
 
         $contacts1 = Contact::factory()
