@@ -2,29 +2,30 @@
 
 namespace App\Concerns;
 
+use App\Jobs\ProcessUploadContactAvatar;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Laravel\Facades\Image;
 
 trait HandleImages
 {
-    public function generateAllSizedImages($avatar): string
+    public function generateAvatarImages($avatar): string
     {
         $unique_id = uniqid();
 
-        $path_db = 'contact_' . $unique_id . '.jpg';
+        $new_original_file_name = 'contact_' . $unique_id . '.' . config('avatars.jpg_image_type');
 
-        foreach (config('avatars.sizes') as $key => $size) {
-            $base_file_name = 'contact_' . $unique_id . '.jpg';
-            $file_name = substr_replace($base_file_name, '_' . $size['format'], -4, 0);
+        $full_path_to_original = Storage::disk('public')->putFileAs(
+            config('avatars.original_path'),
+            $avatar,
+            $new_original_file_name
+        );
 
-            $image = Image::read($avatar)
-                ->cover($size['width'], $size['height'])
-                ->toJpeg(80);
-
-            $path_storage = "contacts/$key/$file_name";
-            Storage::disk('public')->put($path_storage, $image->toString());
+        if ($full_path_to_original) {
+            $avatar = $new_original_file_name;
+            ProcessUploadContactAvatar::dispatch($new_original_file_name);
+        } else {
+            $avatar = '';
         }
 
-        return $path_db;
+        return $avatar;
     }
 }
