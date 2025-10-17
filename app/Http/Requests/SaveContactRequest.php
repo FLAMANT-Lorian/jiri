@@ -15,7 +15,7 @@ class SaveContactRequest extends FormRequest
      */
     public function rules(): array
     {
-        if (route('contacts.store')) {
+        if (url()->current() === route('contacts.store')) {
             return [
                 'name' => 'required',
                 'email' => 'required|email:rfc|unique:contacts',
@@ -25,9 +25,7 @@ class SaveContactRequest extends FormRequest
                 'jiris.*.homeworks.*' => 'nullable|integer|exists:homeworks,id',
                 'avatar' => 'nullable|image'
             ];
-        }
-
-        if (route('contacts.update')) {
+        } else {
             return [];
         }
     }
