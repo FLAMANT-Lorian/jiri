@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ContactRoles;
-use App\Http\Requests\StoreContactRequest;
+use App\Http\Requests\SaveContactRequest;
 use App\Models\Contact;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +14,7 @@ class ContactController extends Controller
 {
     use AuthorizesRequests;
     use HandleImages;
+
     public function index()
     {
         $contacts = Auth::user()->contacts;
@@ -21,7 +22,7 @@ class ContactController extends Controller
         return view('contacts.index', compact('contacts'));
     }
 
-    public function store(StoreContactRequest $request): RedirectResponse
+    public function store(SaveContactRequest $request): RedirectResponse
     {
         $validated_data = $request->validated();
 
@@ -62,12 +63,12 @@ class ContactController extends Controller
         return view('contacts.edit', compact('contact'));
     }
 
-    public function update(Contact $contact)
+    public function update(SaveContactRequest $request, Contact $contact): RedirectResponse
     {
         $this->authorize('update', $contact);
 
         // TODO : Faire la validation
 
-        return redirect(route('contacts.show',$contact->id));
+        return redirect(route('contacts.show', $contact->id));
     }
 }

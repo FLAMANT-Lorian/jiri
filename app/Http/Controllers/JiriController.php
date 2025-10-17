@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ContactRoles;
-use App\Http\Requests\StoreJiriRequest;
+use App\Http\Requests\SaveJiriRequest;
 use App\Models\Contact;
 use App\Models\Jiri;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class JiriController extends Controller
@@ -23,7 +21,7 @@ class JiriController extends Controller
         return view('jiris.index', compact('jiris'));
     }
 
-    public function store(StoreJiriRequest $request): RedirectResponse
+    public function store(SaveJiriRequest $request): RedirectResponse
     {
         $validated_data = $request->validated();
 
@@ -70,19 +68,12 @@ class JiriController extends Controller
         return view('jiris.edit', compact('jiri', 'contacts', 'projects'));
     }
 
-    public function update(Request $request, Jiri $jiri): RedirectResponse
+    public function update(SaveJiriRequest $request, Jiri $jiri): RedirectResponse
     {
         $this->authorize('update', $jiri);
 
         /****** Validation des données ******/
-        $validated_data = $request->validate([
-            'name' => 'required',
-            'date' => 'required|date',
-            'description' => 'nullable',
-            'projects.*' => 'nullable|integer|exists:projects,id',
-            'contacts.*' => 'nullable|array',
-            'contacts.*.role' => Rule::Enum(ContactRoles::class),
-        ]);
+        $validated_data = $request->validated();
 
         /****** Mise à jour des données du Jiri ******/
         $jiri->upsert(
