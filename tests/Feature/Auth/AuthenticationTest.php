@@ -3,6 +3,7 @@
 use App\Models\Contact;
 use App\Models\Jiri;
 use App\Models\User;
+use Carbon\Carbon;
 use function Pest\Laravel\actingAs;
 
 describe('Authenticated User ONLY', function () {
@@ -26,15 +27,23 @@ it('verifies if an authenticate user can’t modify a jiri of another user',
         $user = User::factory()->create();
 
         $jiri = Jiri::factory()
-            ->for($user)->create();
+            ->for($user)
+            ->create();
 
         $other_user = User::factory()
             ->create();
 
+        $data = [
+            'name' => 'Design Web',
+            'date' => Carbon::now()
+        ];
+
         actingAs($other_user);
 
-        $response = $this->patch(route('jiris.update', $jiri));
+        $response = $this->patch(route('jiris.update', $jiri->id), $data);
 
+
+        $response->assertValid();
         $response->assertStatus(403);
     }
 );
@@ -47,10 +56,17 @@ it('verifies if an authenticate user can’t modify a contact of another user',
             ->for($user)
             ->create();
 
-        $other_user = User::factory()->create();
+        $other_user = User::factory()
+            ->create();
+
         actingAs($other_user);
 
-        $response = $this->patch(route('contacts.update', $contact));
+        $data = [
+            'name' => 'Design Web',
+            'email' => 'hello@lorian.be'
+        ];
+
+        $response = $this->patch(route('contacts.update', $contact->id), $data);
 
         $response->assertStatus(403);
     }
