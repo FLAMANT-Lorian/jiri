@@ -30,17 +30,17 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $contacts1 = Contact::factory()
-            ->count(4)
+            ->count(8)
             ->for($user1)
             ->create();
 
         $projects1 = Project::factory()
-            ->count(4)
+            ->count(8)
             ->for($user1)
             ->create();
 
         Jiri::factory()
-            ->count(4)
+            ->count(6)
             ->hasAttached($contacts1,
                 fn() => ['role' => $available_roles[rand(0, 1)]])
             ->hasAttached($projects1)

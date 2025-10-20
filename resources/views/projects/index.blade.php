@@ -2,7 +2,11 @@
     use Carbon\Carbon;
 @endphp
 
-@component('layout.app')
+<x-layouts.app>
+    <x-slot:title>
+        Vos projets · Jiri
+    </x-slot:title>
+
     <main class="grow">
         @if($projects->isNotEmpty())
             <section class="px-8 py-6">
@@ -14,7 +18,8 @@
                     <thead class="">
                         <tr class="bg-gray-100 p-0">
                             <th class="px-4 py-2 w-[5%]">
-                                <input class="all_col hover:cursor-pointer" type="checkbox" name="all_col_selector" id="all_col"
+                                <input class="all_col hover:cursor-pointer" type="checkbox" name="all_col_selector"
+                                       id="all_col"
                                        title="Séléctionner tout les projets">
                                 <label for="all_col" class="sr-only">Séléctionner tout les projets</label>
                             </th>
@@ -32,11 +37,13 @@
                                 <th class="px-2">
                                     <input class="row_checkbox hover:cursor-pointer" type="checkbox"
                                            value="{!! $project->id !!}"
-                                           name="col_selector" id="row{!! $project->id !!}" title="Sélectionner le projets">
+                                           name="col_selector" id="row{!! $project->id !!}"
+                                           title="Sélectionner le projets">
                                     <label for="row{!! $project->id !!}" class="sr-only">Séléctionner le projets</label>
                                 </th>
                                 <td class="text-gray-900 py-4">
-                                    <a href="{!! route('projects.show', $project->id) !!}" class="hover:text-blue-700 transition-all">
+                                    <a href="{!! route('projects.show', $project->id) !!}"
+                                       class="hover:text-blue-700 transition-all">
                                         {!! $project->name !!}
                                     </a>
                                 </td>
@@ -76,4 +83,4 @@
             });
         });
     </script>
-@endcomponent
+</x-layouts.app>

@@ -26,7 +26,7 @@
                 <input type="text" name="email" id="email" value="{!! old('email') !!}" autocomplete="off">
             </div>
             <div class="field">
-                <input type="hidden" name="MAX_FILE_SIZE" value="300000" />
+                <input type="hidden" name="MAX_FILE_SIZE" value="300000"/>
                 <label for="avatar">Avatar<strong> *</strong></label>
                 @error('avatar')
                 <p class="error">{{ $message }}</p>
@@ -50,16 +50,6 @@
                             <option value="{!! $role->value !!}">{!! __('labels-buttons.'.$role->value) !!}</option>
                         @endforeach
                     </select>
-
-                    <div class="sub_fields" style="margin-left: 24px">
-                        @foreach($jiri->projects as $project)
-                            <div class="sub_field">
-                                <label for="projects{!! $project->id . '_' . $jiri->id !!}">{!! $project->name !!}</label>
-                                <input type="checkbox" name="jiris[{!! $jiri->id !!}][homeworks][]"
-                                       value="{!! $project->id !!}" id="projects{!! $project->id . '_' . $jiri->id !!}">
-                            </div>
-                        @endforeach
-                    </div>
                 </div>
             @endforeach
         </fieldset>

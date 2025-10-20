@@ -1,7 +1,11 @@
 <!doctype html>
 <html lang="{!! app()->getLocale() !!}">
 <head>
-    @include('partials.head')
+    <x-partials.head>
+        <x-slot:title>
+            {!! $title !!}
+        </x-slot:title>
+    </x-partials.head>
 </head>
 <body class="bg-gray-100 m-auto flex">
 
@@ -15,4 +19,3 @@
     @include('components.footer')
 </body>
 </html>
-

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\ContactRoles;
 use App\Http\Requests\SaveContactRequest;
 use App\Models\Contact;
+use App\Models\Jiri;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Concerns\HandleImages;
@@ -24,6 +25,7 @@ class ContactController extends Controller
 
     public function store(SaveContactRequest $request): RedirectResponse
     {
+
         $validated_data = $request->validated();
 
         if (request()->hasFile('avatar')) {
@@ -37,8 +39,11 @@ class ContactController extends Controller
                 $contact->jiris()->attach($id, ['role' => $jiri['role']]);
 
                 if ($jiri['role'] === ContactRoles::Evaluated->value) {
-                    foreach ($jiri['homeworks'] as $homework_id) {
-                        $contact->homeworks()->attach($homework_id);
+                    $jiri = Jiri::where('id', $id)->first();
+                    $homeworks = $jiri->homeworks()->pluck('id')->toArray();
+
+                    if (!empty($homeworks)) {
+                        $contact->homeworks()->attach($homeworks);
                     }
                 }
             }

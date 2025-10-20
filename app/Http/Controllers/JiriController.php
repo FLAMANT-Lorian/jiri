@@ -16,7 +16,9 @@ class JiriController extends Controller
 
     public function index()
     {
-        $jiris = Auth::user()->jiris;
+        $jiris = Jiri::with(['attendances', 'projects', 'user'])
+            ->where('user_id', '=', Auth::user()->id)
+            ->get();
 
         return view('jiris.index', compact('jiris'));
     }
@@ -43,11 +45,17 @@ class JiriController extends Controller
             }
         }
 
-        return redirect(route('jiris.index'));
+        return redirect(route('jiris.show', $jiri->id));
     }
 
     public function show(Jiri $jiri)
     {
+        $jiri->load([
+            'contacts',
+            'attendances',
+            'projects',
+        ]);
+
         return view('jiris.show', compact('jiri'));
     }
 

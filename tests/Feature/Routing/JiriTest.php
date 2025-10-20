@@ -32,7 +32,9 @@ describe('Authenticated User ONLY', function () {
 
             // Assert
             $response->assertStatus(302);
-            $response->assertRedirect(route('jiris.index'));
+
+            $jiri = Jiri::first();
+            $response->assertRedirect(route('jiris.show', $jiri->id));
         }
     );
 
@@ -79,7 +81,7 @@ describe('Authenticated User ONLY', function () {
             // Assert
             $response->assertStatus(200);
             $response->assertViewIs('jiris.show');
-            $response->assertSee('<h1>Récapitulatif du jiri : ' . $jiri->name . '</h1>', false);
+            $response->assertSee('Jiri : ' . $jiri->name);
         }
     );
 

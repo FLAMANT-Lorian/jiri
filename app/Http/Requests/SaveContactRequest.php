@@ -21,8 +21,6 @@ class SaveContactRequest extends FormRequest
                 'email' => 'required|email:rfc|unique:contacts',
                 'jiris' => 'nullable',
                 'jiris.*.role' => Rule::enum(ContactRoles::class),
-                'jiris.*.homeworks' => 'nullable|array',
-                'jiris.*.homeworks.*' => 'nullable|integer|exists:homeworks,id',
                 'avatar' => 'nullable|image'
             ];
         } else {

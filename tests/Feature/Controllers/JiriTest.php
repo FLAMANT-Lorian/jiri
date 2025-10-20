@@ -106,23 +106,6 @@ it('verifies if there are no jiris and displays an error message',
     }
 );
 
-it('verifies if the informations of every jiris are correct in the details views',
-    function () {
-        // Arrange
-        $jiri = Jiri::factory()
-            ->for($this->user)
-            ->create();
-
-        // Act
-        $response = $this->get(route('jiris.show', $jiri->id));
-
-        // Assert
-        $response->assertStatus(200);
-        $response->assertViewIs('jiris.show');
-        $response->assertSee('<h1>Récapitulatif du jiri : ' . $jiri->name . '</h1>', false);
-    }
-);
-
 it('verifies if you give a false value to a specific column in the table',
     function () {
         $jiri = [

@@ -19,7 +19,7 @@ it('verifies that the jiris.create route displays a form to create a jiri',
 
         $response->assertStatus(200);
         $response->assertViewIs('jiris.create');
-        $response->assertSee("<h1>$main_heading</h1>", false);
+        $response->assertSee("$main_heading");
     })->with([
     ['fr', 'Créez un jiri'],
     ['en', 'Create a jiri'],

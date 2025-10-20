@@ -2,19 +2,29 @@
     use Carbon\Carbon;
 @endphp
 
-@component('layout.app')
+<x-layouts.app>
+    <x-slot:title>
+        Vos contacts · Jiri
+    </x-slot:title>
+
     <main class="grow">
         @if($contacts->isNotEmpty())
             <section class="px-8 py-6">
-                <h2 class="text-4xl pb-6 font-semibold">
+                <div class="flex justify-between pb-6">
+                <h2 class="text-4xl font-semibold self-center">
                     Vos contacts
                 </h2>
+                    <a class="self-end font-medium block px-6 py-2.5 rounded-xl bg-blue-100 border border-blue-200 hover:bg-blue-200 hover:border-blue-300 transition-all"
+                       href="{{ route('contacts.create') }}">Créer un nouveau contact
+                    </a>
+                </div>
                 <table
                     class="w-full overflow-hidden border-separate rounded-2xl bg-white border border-gray-300 border-spacing-0">
                     <thead class="">
                         <tr class="bg-gray-100 p-0">
                             <th class="px-4 py-2 w-[5%]">
-                                <input class="all_col hover:cursor-pointer" type="checkbox" name="all_col_selector" id="all_col"
+                                <input class="all_col hover:cursor-pointer" type="checkbox" name="all_col_selector"
+                                       id="all_col"
                                        title="Séléctionner tout les contacts">
                                 <label for="all_col" class="sr-only">Séléctionner tout les contacts</label>
                             </th>
@@ -35,7 +45,8 @@
                                 <th class="px-2">
                                     <input class="row_checkbox hover:cursor-pointer" type="checkbox"
                                            value="{!! $contact->id !!}"
-                                           name="col_selector" id="row{!! $contact->id !!}" title="Sélectionner le contact">
+                                           name="col_selector" id="row{!! $contact->id !!}"
+                                           title="Sélectionner le contact">
                                     <label for="row{!! $contact->id !!}" class="sr-only">Séléctionner le contact</label>
                                 </th>
                                 <td class="text-gray-900 py-4">
@@ -86,4 +97,4 @@
             });
         });
     </script>
-@endcomponent
+</x-layouts.app>

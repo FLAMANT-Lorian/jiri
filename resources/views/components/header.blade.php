@@ -1,4 +1,4 @@
-<header class="h-screen box-border p-6
+<header class="sticky top-0 h-screen box-border p-6
     rounded-2xl rounded-bl-none rounded-tl-none
     bg-white border border-l-0 border-gray-300 flex flex-col">
     <h1 class="text-4xl pb-6 font-semibold flex flex-col gap-2">
