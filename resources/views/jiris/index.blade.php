@@ -108,6 +108,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{ $jiris->links() }}
             </section>
         @else
             <p>Il n’y a pas de jiri disponible</p>

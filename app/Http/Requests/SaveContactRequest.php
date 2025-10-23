@@ -23,8 +23,14 @@ class SaveContactRequest extends FormRequest
                 'jiris.*.role' => Rule::enum(ContactRoles::class),
                 'avatar' => 'nullable|image'
             ];
-        } else {
-            return [];
-        }
+        } /*else {
+            return [
+                'name' => 'required',
+                'email' => 'required|email:rfc',
+                'jiris' => 'nullable',
+                'jiris.*.role' => Rule::enum(ContactRoles::class),
+                'avatar' => 'nullable|image'
+            ];
+        }*/
     }
 }

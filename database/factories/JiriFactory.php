@@ -15,7 +15,7 @@ class JiriFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'date' => Carbon::now()->subDays(rand(1, 365)),
+            'date' => Carbon::now()->addDays(rand(-365, 365)),
             'description' => $this->faker->optional()->text(),
         ];
     }

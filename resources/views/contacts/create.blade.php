@@ -39,7 +39,8 @@
             @foreach($jiris as $jiri)
                 <div class="field">
                     <label for="jiri{!! $jiri->id !!}">{!! $jiri->name !!}</label>
-                    <input type="checkbox"
+                    <input class="jiri"
+                        type="checkbox"
                            name="jiris[{!! $jiri->id !!}]"
                            value="{!! $jiri->id !!}"
                            id="jiri{!! $jiri->id !!}">
@@ -56,4 +57,20 @@
         <input type="submit" value="Créez le contact">
     </form>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const checkboxes = document.querySelectorAll('.jiri');
+
+        checkboxes.forEach(checkbox => {
+            const id = checkbox.value;
+            const select = document.getElementById(`role${id}`);
+
+            checkbox.checked ? select.disabled = false : select.disabled = true;
+
+            checkbox.addEventListener('change', () => {
+                checkbox.checked ? select.disabled = false : select.disabled = true;
+            });
+        });
+    });
+</script>
 </html>
