@@ -257,3 +257,15 @@ it('verifies if jiri data is correctly modified in the database when you edit th
             ]);
     }
 );
+
+it('sends an email to the author after the creation of a jiri', function () {
+    Mail::fake();
+
+    $data = Jiri::factory()->for($this->user)->raw();
+
+    $response = $this->post(route('jiris.store'), $data);
+
+    \Illuminate\Support\Facades\Mail::assertQueued(\App\Mail\JiriCreatedMail::class);
+
+    dd((new \App\Mail\JiriCreatedMail(Jiri::first()))->content());
+});

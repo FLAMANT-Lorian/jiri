@@ -9,9 +9,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// À la place d'écrire les 7 routes, il les fait toutes pour nous !
-Route::resource('jiris', JiriController::class)->middleware('auth');
+Route::get('/jiris', [JiriController::class, 'index'])->name('jiris.index')->middleware('auth');
+Route::get('/jiris/create', [JiriController::class, 'create'])->name('jiris.create')->middleware('auth');
+Route::post('/jiris', [JiriController::class, 'store'])->name('jiris.store')->middleware('auth');
+Route::get('/jiris/{jiri}', [JiriController::class, 'show'])->name('jiris.show')->middleware('auth');
+Route::get('/jiris/{jiri}/edit', [JiriController::class, 'edit'])->name('jiris.edit')->middleware('auth');
+Route::put('/jiris/{jiri}', [JiriController::class, 'update'])->name('jiris.update')->middleware('auth');
 
-Route::resource('contacts', ContactController::class)->middleware('auth');
 
-Route::resource('projects', ProjectController::class);
+Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index')->middleware('auth');
+Route::get('/contacts/create', [ContactController::class, 'create'])->name('contacts.create')->middleware('auth');
+Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store')->middleware('auth');
+Route::get('/contacts/{contact}', [ContactController::class, 'show'])->name('contacts.show')->middleware('auth');
+Route::get('/contacts/{contact}/edit', [ContactController::class, 'edit'])->name('contacts.edit')->middleware('auth');
+Route::put('/contacts/{contact}', [ContactController::class, 'update'])->name('contacts.update')->middleware('auth');
+
+
+Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
+Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
