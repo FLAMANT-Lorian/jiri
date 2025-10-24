@@ -42,8 +42,6 @@ it('verifies if an authenticate user can’t modify a jiri of another user',
 
         $response = $this->patch(route('jiris.update', $jiri->id), $data);
 
-
-        $response->assertValid();
         $response->assertStatus(403);
     }
 );

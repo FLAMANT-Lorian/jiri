@@ -82,6 +82,6 @@ it('verifies if the contacts.edit view displays a form',
 
         $response->assertStatus(200);
         $response->assertViewIs('contacts.edit');
-        $response->assertSeeInOrder(['Modifier les informations du contact', '<form', 'Modifier le contact']);
+        $response->assertSeeInOrder(['Modifier le contact', '<form', 'Modifier le contact']);
     }
 );

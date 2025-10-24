@@ -14,7 +14,7 @@ Route::get('/jiris/create', [JiriController::class, 'create'])->name('jiris.crea
 Route::post('/jiris', [JiriController::class, 'store'])->name('jiris.store')->middleware('auth');
 Route::get('/jiris/{jiri}', [JiriController::class, 'show'])->name('jiris.show')->middleware('auth');
 Route::get('/jiris/{jiri}/edit', [JiriController::class, 'edit'])->name('jiris.edit')->middleware('auth');
-Route::put('/jiris/{jiri}', [JiriController::class, 'update'])->name('jiris.update')->middleware('auth');
+Route::patch('/jiris/{jiri}', [JiriController::class, 'update'])->name('jiris.update')->middleware('auth');
 
 
 Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index')->middleware('auth');
@@ -22,7 +22,7 @@ Route::get('/contacts/create', [ContactController::class, 'create'])->name('cont
 Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store')->middleware('auth');
 Route::get('/contacts/{contact}', [ContactController::class, 'show'])->name('contacts.show')->middleware('auth');
 Route::get('/contacts/{contact}/edit', [ContactController::class, 'edit'])->name('contacts.edit')->middleware('auth');
-Route::put('/contacts/{contact}', [ContactController::class, 'update'])->name('contacts.update')->middleware('auth');
+Route::patch('/contacts/{contact}', [ContactController::class, 'update'])->name('contacts.update')->middleware('auth');
 
 
 Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');

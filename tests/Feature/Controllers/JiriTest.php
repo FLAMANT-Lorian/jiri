@@ -16,7 +16,6 @@ use function Pest\Laravel\assertDatabaseMissing;
 
 beforeEach(function () {
     $this->user = User::factory()->create();
-
     actingAs($this->user);
 });
 
@@ -266,5 +265,4 @@ it('sends an email to the author after the creation of a jiri', function () {
     $response = $this->post(route('jiris.store'), $data);
 
     \Illuminate\Support\Facades\Mail::assertQueued(\App\Mail\JiriCreatedMail::class);
-
 });

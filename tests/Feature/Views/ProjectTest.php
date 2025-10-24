@@ -26,7 +26,7 @@ it('verifies if the informations of every project are correct in the project vie
             ->for($this->user)
             ->create();
 
-        $response = $this->get('/projects/' . $project->id);
+        $response = $this->get(route('projects.show', $project->id));
 
         $response->assertStatus(200);
         $response->assertViewIs('projects.show');
