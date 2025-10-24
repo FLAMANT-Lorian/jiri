@@ -1,5 +1,11 @@
 @php
     use Carbon\Carbon;
+
+       $labels = [
+        ['name' => 'Nom', 'arrow_filter' => true],
+        ['name' => 'Date', 'arrow_filter' => true],
+        ['name' => 'Actions'],
+];
 @endphp
 
 <x-layouts.app>
@@ -9,10 +15,16 @@
 
     <main class="grow">
         @if($projects->isNotEmpty())
-            <section class="px-8 py-6">
+            <section class="flex flex-col gap-6 py-6 px-8">
+                <div class="flex justify-between">
+
                 <h2 class="text-4xl pb-6 font-semibold">
                     Vos projets
                 </h2>
+                    <a class="self-end font-medium block px-6 py-2.5 rounded-xl bg-blue-100 border border-blue-200 hover:bg-blue-200 hover:border-blue-300 transition-all"
+                       href="{{ route('projects.create') }}">Créer un nouveau projet
+                    </a>
+                </div>
                 <table
                     class="w-full overflow-hidden border-separate rounded-2xl bg-white border border-gray-300 border-spacing-0">
                     <thead class="">

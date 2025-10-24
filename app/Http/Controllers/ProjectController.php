@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
-use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
@@ -20,13 +19,21 @@ class ProjectController extends Controller
             'name' => 'required',
         ]);
 
-        Auth::user()->projects()->create($validated_data);
 
-        return redirect(route('projects.index'));
+        $project = auth()->user()->projects()->create($validated_data);
+
+        return redirect(route('projects.show', $project->id));
     }
 
     public function show(Project $project)
     {
         return view('projects.show', compact('project'));
+    }
+
+    public function create()
+    {
+        $jiris = auth()->user()->jiris;
+
+        return view('projects.create', compact('jiris'));
     }
 }

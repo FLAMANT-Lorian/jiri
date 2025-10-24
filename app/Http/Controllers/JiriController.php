@@ -4,13 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Enums\ContactRoles;
 use App\Http\Requests\SaveJiriRequest;
-use App\Mail\JiriCreatedMail;
 use App\Models\Contact;
 use App\Models\Jiri;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\Mail;
+
 
 class JiriController extends Controller
 {

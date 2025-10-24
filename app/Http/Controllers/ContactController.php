@@ -122,7 +122,7 @@ class ContactController extends Controller
             ['name', 'email', 'avatar'],
         );
 
-        /****** Récupération des anciens contacts pour mettre à jour les implémentations ******/
+        /****** Récupération des anciens jiris pour mettre à jour les implémentations ******/
         $old_jiris_ids = $contact->jiris()->pluck('jiri_id')->toArray();
 
         /****** Mettre à jour les attendances ******/

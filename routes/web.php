@@ -25,6 +25,7 @@ Route::get('/contacts/{contact}/edit', [ContactController::class, 'edit'])->name
 Route::patch('/contacts/{contact}', [ContactController::class, 'update'])->name('contacts.update')->middleware('auth');
 
 
-Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
-Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
-Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
+Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index')->middleware('auth');
+Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create')->middleware('auth');
+Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store')->middleware('auth');
+Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show')->middleware('auth');

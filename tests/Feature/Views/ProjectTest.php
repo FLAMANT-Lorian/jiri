@@ -54,3 +54,11 @@ it('displays a complete list of projects on the project index page',
         }
     }
 );
+
+it('verifies if the projects.create route displays a form to create a project', function () {
+    $response = $this->get(route('projects.create'));
+
+    $response->assertStatus(200);
+    $response->assertViewIs('projects.create');
+    $response->assertSee('Créez un projet');
+});

@@ -43,7 +43,8 @@ it('fills correctly the email with the values of the created Jiri', function () 
 
 it('sends the email using the configured transport layer', function () {
 
-    Event::fake(['eloquent.created: App\Models\jiri']);
+    Event::fake(['eloquent.created: App\Models\Jiri']);
+
     \Illuminate\Support\Facades\Mail::fake();
 
     $user = User::factory()->create();
@@ -59,7 +60,6 @@ it('sends the email using the configured transport layer', function () {
     $messages = json_decode($response, true);
 
     $this->assertNotEmpty($messages['messages']);
-
 });
 
 

@@ -16,29 +16,26 @@
                     <legend class="font-semibold pb-2 text-2xl before:content-['⊙'] before:text-orange-600 before:pr-1">
                         Informations sur le jiri
                     </legend>
-                    <div class="flex flex-col gap-1 col-span-3">
+                    <div class="relative flex flex-col gap-1 col-span-3">
                         <label class="font-semibold" for="name">{!! __('labels-buttons.jiri_name') !!}<small
                                 class="text-red-500"> *</small></label>
-                        @error('name')
-                        <p class="error">{{ $message }}</p>
-                        @enderror
                         <input class="py-1 px-2 rounded-lg outline-1 outline-gray-300 focus:outline-orange-600"
                                type="text" name="name" id="name" value="{!! $jiri->name !!}">
+                        @error('name')
+                        <p class="absolute -bottom-6 error text-red-500">{{ $message }}</p>
+                        @enderror
                     </div>
-                    <div class="flex flex-col gap-1 col-span-3">
+                    <div class="relative flex flex-col gap-1 col-span-3">
                         <label class="font-semibold" for="date">Date du jiri <small class="text-red-500">
                                 *</small></label>
-                        @error('date')
-                        <p class="error">{{ $message }}</p>
-                        @enderror
                         <input class="py-1 px-2 rounded-lg outline-1 outline-gray-300 focus:outline-orange-600"
                                type="text" name="date" id="date" value="{!! $jiri->date !!}">
+                        @error('date')
+                        <p class="absolute -bottom-6 error text-red-500">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="flex flex-col gap-1 col-span-6 col-start-1">
                         <label class="font-semibold" for="name">Description</label>
-                        @error('description')
-                        <p class="error">{{ $message }}</p>
-                        @enderror
                         <textarea placeholder="Jury de fin d’année ..."
                                   class="min-h-28 max-h-70 py-1 px-2 rounded-lg outline-1 outline-gray-300 focus:outline-orange-600"
                                   name="description"

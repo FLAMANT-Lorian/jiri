@@ -24,6 +24,8 @@ describe('Authenticated User ONLY', function () {
 
     it('redirects to the jiri index route after the successful creation of a jiri',
         function () {
+            Event::fake('eloquent.created: App\Models\Jiri');
+
             // Arrange
             $jiri = Jiri::factory()->raw();
 

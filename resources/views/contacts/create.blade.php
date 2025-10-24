@@ -34,8 +34,10 @@
                 <input type="file" name="avatar" id="avatar">
             </div>
         </fieldset>
-        <fieldset class="fields jiris">
-            <legend>Jiris disponibles</legend>
+        <fieldset class="grid col-span-3 col-start-1 gap-3">
+            <legend>
+                Jiris disponibles
+            </legend>
             @foreach($jiris as $jiri)
                 <div class="field">
                     <label for="jiri{!! $jiri->id !!}">{!! $jiri->name !!}</label>
