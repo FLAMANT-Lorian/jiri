@@ -27,6 +27,7 @@ it('verifies that the jiris.create route displays a form to create a jiri',
 
 it('verifies if the jiris in the dashboard page are associated to the current user',
     function () {
+    Event::fake('eloquent.created: App\Models\Jiri');
 
         $user = User::factory()
             ->has(Jiri::factory()
@@ -56,6 +57,8 @@ it('verifies if the jiris in the dashboard page are associated to the current us
 
 it('verifies if a jiri.edit route exist and displays a update form',
     function () {
+        Event::fake('eloquent.created: App\Models\Jiri');
+
         $jiri = Jiri::factory()
             ->for($this->user)
             ->create();

@@ -24,6 +24,8 @@ describe('Authenticated User ONLY', function () {
 
 it('verifies if an authenticate user can’t modify a jiri of another user',
     function () {
+        Event::fake('eloquent.created: App\Models\Jiri');
+
         $user = User::factory()->create();
 
         $jiri = Jiri::factory()
@@ -48,6 +50,8 @@ it('verifies if an authenticate user can’t modify a jiri of another user',
 
 it('verifies if an authenticate user can’t modify a contact of another user',
     function () {
+        Event::fake('eloquent.created: App\Models\Jiri');
+
         $user = User::factory()->create();
 
         $contact = Contact::factory()

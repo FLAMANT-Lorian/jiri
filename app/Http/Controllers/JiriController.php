@@ -47,8 +47,6 @@ class JiriController extends Controller
             }
         }
 
-        Mail::to($request->user())->queue(New JiriCreatedMail($jiri));
-
         return redirect(route('jiris.show', $jiri->id));
     }
 

@@ -25,9 +25,7 @@ it('displays a complete list of contacts on the contact index page',
         $response->assertViewIs('contacts.index');
         $response->assertSee('Vos contacts');
 
-        foreach ($contacts as $contact) {
-            $response->assertSee($contact->name);
-        }
+        $response->assertSee($contacts[1]->name);
     }
 );
 

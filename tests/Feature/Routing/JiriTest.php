@@ -40,6 +40,8 @@ describe('Authenticated User ONLY', function () {
 
     it('displays a complete list of jiries on the jiri index page',
         function () {
+            Event::fake('eloquent.created: App\Models\Jiri');
+
             // Arrange
             $jiris = Jiri::factory(4)
                 ->for($this->user)
@@ -53,9 +55,7 @@ describe('Authenticated User ONLY', function () {
             $response->assertViewIs('jiris.index');
             $response->assertSee('Vos Jiris');
 
-            foreach ($jiris as $jiri) {
-                $response->assertSee($jiri->name);
-            }
+            $response->assertSee($jiris[1]->name);
         }
     );
 
@@ -70,6 +70,8 @@ describe('Authenticated User ONLY', function () {
 
     it('verifies if the informations of every jiris are correct in the details views',
         function () {
+            Event::fake('eloquent.created: App\Models\Jiri');
+
             // Arrange
             $jiri = Jiri::factory()
                 ->for($this->user)

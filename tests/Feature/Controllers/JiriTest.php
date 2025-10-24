@@ -76,6 +76,8 @@ it('fails to create a new jiri in database when there the date is incorrect in t
 
 it('displays a complete list of jiries on the jiri index page',
     function () {
+        Event::fake('eloquent.created: App\Models\Jiri');
+
         // Arrange
         $jiris = Jiri::factory(4)
             ->for($this->user)
@@ -120,6 +122,8 @@ it('verifies if you give a false value to a specific column in the table',
 
 it('verifies if jiri data is correctly inserted in the database when you create a jiri with contacts and projects',
     function () {
+        Event::fake('eloquent.created: App\Models\Jiri');
+
         $jiri = Jiri::factory()->raw();
 
         $contacts = Contact::factory()
@@ -162,6 +166,8 @@ it('verifies if jiri data is correctly inserted in the database when you create 
 
 it('verifies if jiri data is correctly modified in the database when you edit the information about a jiri',
     function () {
+        Event::fake('eloquent.created: App\Models\Jiri');
+
         // Créer en DB
         $available_roles = [
             1 => ContactRoles::Evaluated->value,
@@ -256,13 +262,3 @@ it('verifies if jiri data is correctly modified in the database when you edit th
             ]);
     }
 );
-
-it('sends an email to the author after the creation of a jiri', function () {
-    Mail::fake();
-
-    $data = Jiri::factory()->for($this->user)->raw();
-
-    $response = $this->post(route('jiris.store'), $data);
-
-    \Illuminate\Support\Facades\Mail::assertQueued(\App\Mail\JiriCreatedMail::class);
-});

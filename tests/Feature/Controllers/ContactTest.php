@@ -67,6 +67,8 @@ it('creates a contact and redirects to the contact index',
 
 it('verifies if a contact is correctly inserted in the database when you create a contact associate to a jiri',
     function () {
+        Event::fake('eloquent.created: App\Models\Jiri');
+
         $contact = Contact::factory()->raw();
 
         $projects = Project::factory()

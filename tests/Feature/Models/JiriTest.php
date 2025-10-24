@@ -15,6 +15,8 @@ beforeEach(function () {
 
 it('is possible to retrieve many evaluated and many evaluators from a jiri',
     function () {
+        Event::fake('eloquent.created: App\Models\Jiri');
+
         $contact1 = Contact::factory()
             ->count(7)
             ->for($this->user)
@@ -47,6 +49,8 @@ it('is possible to retrieve many evaluated and many evaluators from a jiri',
 
 it('is possible to retrieve many projects from a jiri',
     function () {
+        Event::fake('eloquent.created: App\Models\Jiri');
+
         $projects = Project::factory()
             ->count(3)
             ->for($this->user)
@@ -66,6 +70,8 @@ it('is possible to retrieve many projects from a jiri',
 
 it('is possible to retrieve many homeworks from a evaluated',
     function () {
+        Event::fake('eloquent.created: App\Models\Jiri');
+
         $projects = Project::factory()
             ->count(3)
             ->for($this->user)
