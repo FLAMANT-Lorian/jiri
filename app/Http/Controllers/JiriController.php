@@ -20,7 +20,7 @@ class JiriController extends Controller
     {
         $jiris = Jiri::with(['attendances', 'projects', 'user'])
             ->where('user_id', '=', Auth::user()->id)
-            ->simplePaginate(5);
+            ->paginate(5);
 
         return view('jiris.index', compact('jiris'));
     }
