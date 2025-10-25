@@ -17,8 +17,7 @@ class JiriController extends Controller
 
     public function index()
     {
-        $jiris = Jiri::with(['attendances', 'projects', 'user'])
-            ->where('user_id', '=', Auth::user()->id)
+        $jiris = auth()->user()->jiris()->with(['attendances', 'projects', 'user'])
             ->paginate(5);
 
         return view('jiris.index', compact('jiris'));
