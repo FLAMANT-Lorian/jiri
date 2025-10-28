@@ -153,7 +153,7 @@ class ContactController extends Controller
                 if ($jiri['role'] === ContactRoles::Evaluated->value) {
                     $contact->homeworks()->syncWithoutDetaching($homeworks_id);
                 } else {
-                    $contact->homeworks()->detach();
+                    $contact->homeworks()->detach($homeworks_id);
                 }
             }
         }
