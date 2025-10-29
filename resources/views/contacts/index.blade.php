@@ -9,8 +9,8 @@
 
     <main class="grow">
         @if($contacts->isNotEmpty())
-            <section class="px-8 py-6">
-                <div class="flex justify-between pb-6">
+            <section class="flex flex-col gap-6 py-6 px-8">
+                <div class="flex justify-between">
                 <h2 class="text-4xl font-semibold self-center">
                     Vos contacts
                 </h2>
@@ -74,6 +74,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {!! $contacts->links() !!}
             </section>
         @else
             <p>Il n’y a pas de contact disponible</p>

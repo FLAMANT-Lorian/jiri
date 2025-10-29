@@ -22,7 +22,7 @@ class ContactController extends Controller
 
     public function index()
     {
-        $contacts = Auth::user()->contacts;
+        $contacts = Auth::user()->contacts()->paginate(5);
 
         return view('contacts.index', compact('contacts'));
     }
