@@ -1,4 +1,4 @@
-@props(['labels', 'all_selector', 'table_title', 'sort'])
+@props(['labels', 'all_selector', 'table_title', 'sort', 'checkbox'])
 
 <table
     class="w-full overflow-hidden border-separate rounded-2xl bg-white border border-gray-300 border-spacing-0">
@@ -14,7 +14,7 @@
             @endif
             @foreach($labels as $label)
                 <th scope="col"
-                    class="font-semibold text-gray-900 py-2 text-left min-w-[40%]">
+                    class="font-semibold text-gray-900 py-2 {!! $all_selector ? '' : 'px-4'!!} text-left min-w-[40%]">
                     <div class="flex items-center gap-2">
                         @if($label['arrow_filter'] ?? false)
                             <a class="hover:cursor-pointer" href="{!! route('jiris.index') !!}">

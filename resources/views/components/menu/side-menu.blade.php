@@ -1,6 +1,7 @@
 @php
 
     $links = [
+            ['label'=> 'Tableau de bord', 'title' => 'Voir le tableau de bord', 'destination' => route('dashboard.index')],
             ['label'=> 'Mes jiris', 'title' => 'Voir tout mes Jiris', 'destination' => route('jiris.index')],
             ['label'=> 'Mes contacts', 'title' => 'Voir tout mes contacts', 'destination' => route('contacts.index')],
             ['label'=> 'Mes projets', 'title' => 'Voir tout mes projets', 'destination' => route('projects.index')],
