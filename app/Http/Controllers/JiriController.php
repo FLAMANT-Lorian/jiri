@@ -7,6 +7,7 @@ use App\Http\Requests\SaveJiriRequest;
 use App\Models\Contact;
 use App\Models\Jiri;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -15,12 +16,21 @@ class JiriController extends Controller
 {
     use AuthorizesRequests;
 
-    public function index()
+    public function index(Request $request)
     {
-        $jiris = auth()->user()->jiris()->with(['attendances', 'projects', 'user'])
-            ->paginate(5);
+        $order = $request->query('order', 'asc');
+        $sort = $request->query('column', 'name');
 
-        return view('jiris.index', compact('jiris'));
+        if ($sort === 'name') {
+            $jiris = auth()->user()->jiris()->orderBy('name', $order)->with(['attendances', 'projects', 'user'])
+                ->paginate(5);
+        } else if ($sort === 'date'){
+            $jiris = auth()->user()->jiris()->orderBy('date', $order)->with(['attendances', 'projects', 'user'])
+                ->paginate(5);
+        }
+
+
+        return view('jiris.index', compact('jiris', 'order', 'sort'));
     }
 
     public function store(SaveJiriRequest $request): RedirectResponse

@@ -2,8 +2,8 @@
     use Carbon\Carbon;
 
     $labels = [
-        ['name' => 'Nom', 'arrow_filter' => true],
-        ['name' => 'Date', 'arrow_filter' => true],
+        ['name' => 'Nom', 'arrow_filter' => true, 'route' => route('jiris.index',['column' => 'name', 'order' => $order === 'asc' ? 'desc' : 'asc']), 'sort' => 'name'],
+        ['name' => 'Date', 'arrow_filter' => true, 'route' => route('jiris.index',['column' => 'date', 'order' => $order === 'asc' ? 'desc' : 'asc']), 'sort' => 'date'],
         ['name' => 'Projets'],
         ['name' => 'Évalués'],
         ['name' => 'Évaluateurs'],
@@ -28,7 +28,7 @@
                        href="{{ route('jiris.create') }}">Créer un nouveau jiri
                     </a>
                 </div>
-                <x-table.table :labels="$labels" :all_selector="true" table_title="Jiris">
+                <x-table.table :labels="$labels" :all_selector="true" table_title="Jiris" :order="$order" :sort="$sort">
                     @foreach($jiris as $jiri)
                         <tr>
                             <th class="px-2">
