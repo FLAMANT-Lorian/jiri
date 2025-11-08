@@ -12,7 +12,8 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index')->middleware('auth');
 
-Route::get('/jiris', [JiriController::class, 'index'])->name('jiris.index')->middleware('auth');
+// Route::get('/jiris', [JiriController::class, 'index'])->name('jiris.index')->middleware('auth');
+Route::livewire('/jiris', 'pages::jiris.index')->name('jiris.index')->middleware('auth');
 Route::get('/jiris/create', [JiriController::class, 'create'])->name('jiris.create')->middleware('auth');
 Route::post('/jiris', [JiriController::class, 'store'])->name('jiris.store')->middleware('auth');
 Route::get('/jiris/{jiri}', [JiriController::class, 'show'])->name('jiris.show')->middleware('auth');

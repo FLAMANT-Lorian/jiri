@@ -24,9 +24,15 @@
                     <h2 class="text-4xl font-semibold self-center">
                         Vos Jiris
                     </h2>
-                    <a class="self-end font-medium block px-6 py-2.5 rounded-xl bg-blue-100 border border-blue-200 hover:bg-blue-200 hover:border-blue-300 transition-all"
-                       href="{{ route('jiris.create') }}">Créer un nouveau jiri
-                    </a>
+                    <div class="flex gap-6">
+                        <div class="self-center relative">
+                            <label class="pb-1  pr-2" for="search">Rechercher un jiri<small class="text-blue-600"> *</small></label>
+                            <input class="p-2 border-1 border-gray-300 rounded-lg" type="search" name="search" id="search">
+                        </div>
+                        <a class="self-end font-medium block px-6 py-2.5 rounded-xl bg-blue-100 border border-blue-200 hover:bg-blue-200 hover:border-blue-300 transition-all"
+                           href="{{ route('jiris.create') }}">Créer un nouveau jiri
+                        </a>
+                    </div>
                 </div>
                 <x-table.table :labels="$labels" :all_selector="true" table_title="Jiris" :order="$order" :sort="$sort">
                     @foreach($jiris as $jiri)

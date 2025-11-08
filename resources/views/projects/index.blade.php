@@ -16,14 +16,20 @@
     <main class="grow">
         @if($projects->isNotEmpty())
             <section class="flex flex-col gap-6 py-6 px-8">
-                <div class="flex justify-between">
-
-                    <h2 class="text-4xl pb-6 font-semibold">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-4xl font-semibold">
                         Vos projets
                     </h2>
-                    <a class="self-end font-medium block px-6 py-2.5 rounded-xl bg-blue-100 border border-blue-200 hover:bg-blue-200 hover:border-blue-300 transition-all"
-                       href="{{ route('projects.create') }}">Créer un nouveau projet
-                    </a>
+                    <div class="flex gap-6">
+                        <div class="self-center relative">
+                            <label class="pb-1  pr-2" for="search">Rechercher un projet<small class="text-blue-600"> *</small></label>
+                            <input class="p-2 border-1 border-gray-300 rounded-lg" type="text" name="search" id="search">
+                            <img src="{!! asset('assets/img/search.svg') !!}" class="max-w-5 absolute top-3 right-4" alt="Oeil fermé">
+                        </div>
+                        <a class="self-end font-medium block px-6 py-2.5 rounded-xl bg-blue-100 border border-blue-200 hover:bg-blue-200 hover:border-blue-300 transition-all"
+                           href="{{ route('projects.create') }}">Créer un nouveau projet
+                        </a>
+                    </div>
                 </div>
                 <table
                     class="w-full overflow-hidden border-separate rounded-2xl bg-white border border-gray-300 border-spacing-0">
